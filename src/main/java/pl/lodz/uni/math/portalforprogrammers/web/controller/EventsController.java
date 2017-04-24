@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import pl.lodz.uni.math.portalforprogrammers.model.Event;
 import pl.lodz.uni.math.portalforprogrammers.service.EventService;
+import pl.lodz.uni.math.portalforprogrammers.service.SportService;
+import pl.lodz.uni.math.portalforprogrammers.service.TownService;
 
 @Controller
 public class EventsController {
@@ -21,9 +23,17 @@ public class EventsController {
 	@Autowired
 	private EventService eventService;
 	
+	@Autowired
+	private SportService sportService;
+	
+	@Autowired
+	private TownService townServive;
+	
 	@RequestMapping(value = "/createnewevent", method = RequestMethod.GET)
 	public String createNewEvent(Model model) {
 		model.addAttribute("event", new Event());
+		model.addAttribute("towns",townServive.findAllTown());
+		model.addAttribute("sports",sportService.findAllSports());
 		return "newevent";
 	}
 	
