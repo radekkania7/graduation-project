@@ -11,10 +11,10 @@ MIASTO: ${event.eventTown.name} <br/>
 LOKALIZACJA: //TODO <br/>
 SPORT: ${event.eventSport.name} <br/>
 
-LISTA UCZESTNIKOW:
+LISTA UCZESTNIKOW: <br/>
 
 <c:forEach items="${event.eventUsers}" var="user"> 
-		${user.firstName} " " ${user.lastName} " " <br/>
+		${user.firstName}  ${user.lastName} "POKAZ PROFIL" <br/>
 </c:forEach>
 
 DOLACZ DO WYDARZENIA.
