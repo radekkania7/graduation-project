@@ -42,5 +42,10 @@ public class EventServiceImpl implements EventService {
 	public Event findEventById(Integer id) {
 		return dao.findEventById(id);
 	}
+
+	@Override
+	public void update(Event event) {
+		dao.update(event);
+	}
 	
 }

@@ -11,7 +11,7 @@ import pl.lodz.uni.math.portalforprogrammers.service.SportService;
 @Component
 public class SportNameToSportObjectConverter implements Converter<Object, Sport> {
 	
-	Logger logger = Logger.getLogger(SportNameToSportObjectConverter.class);
+	private Logger logger = Logger.getLogger(SportNameToSportObjectConverter.class);
 	
 	@Autowired
 	private SportService service;

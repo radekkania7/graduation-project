@@ -14,5 +14,7 @@ public interface EventService {
 	public Event findEventById(Integer id);
 
 	public void save(Event event);
+	
+	public void update(Event event);
 }
 

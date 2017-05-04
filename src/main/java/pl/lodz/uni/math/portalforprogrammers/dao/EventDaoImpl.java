@@ -14,9 +14,14 @@ public class EventDaoImpl extends AbstracDao<Integer, Event> implements EventDao
 
 	@Override
 	public void save(Event event) {
-		persist(event);
+		super.persist(event);
 	}
-
+	
+	@Override
+	public void update(Event event) {
+		super.update(event);
+	}
+	
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Event> findAllEvents() {

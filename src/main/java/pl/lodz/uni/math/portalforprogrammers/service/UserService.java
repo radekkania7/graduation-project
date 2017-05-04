@@ -6,4 +6,6 @@ public interface UserService {
 	public PortalUser findUserByUsername(String username);
 	
 	public void save(PortalUser user);
+
+	public PortalUser findUserById(Integer id);
 }

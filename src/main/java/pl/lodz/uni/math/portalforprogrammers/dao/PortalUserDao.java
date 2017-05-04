@@ -6,4 +6,6 @@ public interface PortalUserDao {
 	public PortalUser findByUsername(String username);
 	
 	public void save(PortalUser user);
+
+	public PortalUser findById(Integer id);
 }

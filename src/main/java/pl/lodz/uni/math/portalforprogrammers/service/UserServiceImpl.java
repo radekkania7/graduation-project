@@ -24,4 +24,9 @@ public class UserServiceImpl implements UserService {
 		userDao.save(user);
 	}
 
+	@Override
+	public PortalUser findUserById(Integer id) {
+		return userDao.findById(id);
+	}
+
 }

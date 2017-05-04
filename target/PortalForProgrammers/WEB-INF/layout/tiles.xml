@@ -37,4 +37,7 @@
 	<definition name="newevent" extends="base">
 		<put-attribute name="body" value="/WEB-INF/view/newevent.jsp" />
 	</definition>
+	<definition name="notfound" extends="base">
+		<put-attribute name="body" value="/WEB-INF/view/notfound.jsp"/>
+	</definition>
 </tiles-definitions>

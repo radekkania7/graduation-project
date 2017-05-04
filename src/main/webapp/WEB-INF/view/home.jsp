@@ -8,32 +8,26 @@
 <h2> UPRAWIANE SPORTY </h2>
 
 <c:forEach items="${user.userSports}" var="sport">
-	Sport: ${sport.sport.name}
-	Punkty: ${sport.points}
+	Sport: ${sport.sport.name} &nbsp
 </c:forEach>
 
-<h2> Nadchodzace wydarzenia uzytkownika </h2>
+<h2> AKTUALNE WYDARZENIA </h2>
 
-<c:forEach items="${user.userEvents}" var="event">
-	<c:set var="isDone" value="${event.done}" />
-	<c:if test="${isDone == false}">
-		${event.description} <br/>
-		${event.eventDate} <br/>
-	</c:if>
+<c:forEach items="${actual}" var="event">
+		${event.description} ${event.eventDate} 
+		<a href="<c:url value='/eventinfo/${event.id}' />" class="btn btn-success custom-width">Pokaz wydarzenie</a> <br/>
 </c:forEach>
 
-<h2> HISTORIA GIER </h2>
+<h2> HISTORIA WYDARZEN </h2>
 
-<c:forEach items="${user.userEvents}" var="event">
-	<c:set var="isDone" value="${event.done}" />
-	<c:if test="${isDone == true}">
-		${event.description} <br/>
-		${event.eventDate} <br/>
-	</c:if>
+<c:forEach items="${history}" var="event">
+		${event.description} ${event.eventDate} 
+		<a href="<c:url value='/eventinfo/${event.id}' />" class="btn btn-success custom-width">Pokaz wydarzenie</a> <br/>
 </c:forEach>
 
 <h2> RANKINGI </h2>
 
+//TODOSIK ;)
 
 <h2> wczytywanie profilowki xd </h2>
 

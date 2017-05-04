@@ -11,7 +11,7 @@ import pl.lodz.uni.math.portalforprogrammers.service.TownService;
 @Component
 public class TownNameToTownObjectConverter implements Converter<Object, Town> {
 
-	Logger logger = Logger.getLogger(TownNameToTownObjectConverter.class);
+	private Logger logger = Logger.getLogger(TownNameToTownObjectConverter.class);
 	
 	@Autowired
 	private TownService service;

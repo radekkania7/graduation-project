@@ -30,7 +30,7 @@
 	</div>
 	<div>
 		<label for="eventTime" >eventTime</label>
-   		<input type="datetime-local" name="eventTime">
+   		<input type="date" name="eventTime">
 	</div>
 	<div>
 		<input type="submit" value="Utwórz Wydarzenie" />

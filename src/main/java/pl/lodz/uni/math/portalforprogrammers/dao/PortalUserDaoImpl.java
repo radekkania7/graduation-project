@@ -29,4 +29,9 @@ public class PortalUserDaoImpl extends AbstracDao<Integer, PortalUser> implement
 		persist(user);
 	}
 
+	@Override
+	public PortalUser findById(Integer id) {
+		return getByKey(id);
+	}
+
 }
