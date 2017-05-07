@@ -14,13 +14,12 @@ SPORT: ${event.eventSport.name} <br/>
 LISTA UCZESTNIKOW: <br/>
 
 <c:forEach items="${event.eventUsers}" var="user"> 
-		${user.firstName}  ${user.lastName} <a href="<c:url value='/showuser/${user.id}' />" class="btn btn-success custom-width">Pokaz profil</a> <br/>
+	${user.firstName}  ${user.lastName} <a href="<c:url value='/showuser/${user.id}' />" class="btn btn-success custom-width">Pokaz profil</a> <br/>
 </c:forEach>
 
-DOLACZ DO WYDARZENIA.
-//TODO
-
-
-<form method="POST" action="<c:url value = '/eventinfo/${event.id}' />">
-	<input type="submit" value="join"> JoinTheEvent
-</form>
+<c:set var = "isDone" value = "${event.done}" />
+<c:if test = "${isDone == false}">
+	<form method = "POST" action="<c:url value = '/eventinfo/${event.id}' />">
+		<input type="submit" value="join"> JoinTheEvent
+	</form>
+</c:if>

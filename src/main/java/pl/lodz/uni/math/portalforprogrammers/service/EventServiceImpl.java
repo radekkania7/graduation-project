@@ -23,14 +23,12 @@ public class EventServiceImpl implements EventService {
 
 	@Override
 	public List<Event> findActualEvents() {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.findActualEvents();
 	}
 
 	@Override
-	public List<Event> findActualEventsByParam(String TownName, String SportName) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Event> findActualEventsByParam(String townName, String sportName) {
+		return dao.findActualEventsByPara(townName, sportName);
 	}
 
 	@Override
@@ -45,7 +43,7 @@ public class EventServiceImpl implements EventService {
 
 	@Override
 	public void update(Event event) {
-		dao.update(event);
+		dao.updateEvent(event);
 	}
 	
 }

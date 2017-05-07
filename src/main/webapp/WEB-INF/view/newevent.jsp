@@ -33,6 +33,13 @@
    		<input type="date" name="eventTime">
 	</div>
 	<div>
+		//start time
+	</div>
+	<div>
+		//czas trwania zakres w godzinach
+		//tez select
+	</div>
+	<div>
 		<input type="submit" value="Utwórz Wydarzenie" />
 	</div>
 </sf:form>

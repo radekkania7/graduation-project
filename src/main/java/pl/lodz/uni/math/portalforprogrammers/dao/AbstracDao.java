@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,12 @@ public abstract class AbstracDao<PK extends Serializable, T> {
 	
 	public void delete(T entity) {
 		getSession().delete(entity);
+	}
+	
+	public Query getSQLQuery(String stringQuery, String paramName, String paramValue) {
+		Query query = getSession().createSQLQuery(stringQuery).addEntity(persistentClass)
+				.setParameter(paramName, paramValue);
+		return query;
 	}
 	
 	protected Criteria getEntityCriteria() {

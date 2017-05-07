@@ -34,8 +34,14 @@ public class Event implements Serializable {
 	@Column(name="EVENT_DATE", nullable=false)
 	private Date eventDate;
 	
+	@Column(name="EVENT_TIME")
+	private String eventTime;
+	
+	@Column(name="DURATION_TIME")
+	private Integer durationTime;
+	
 	@Column(name="DONE")
-	private boolean done;
+	private Boolean done;
 	
 	@Column(name="PLAYERS_LIMIT")
 	@NotNull
@@ -113,11 +119,34 @@ public class Event implements Serializable {
 		this.eventDate = eventDate;
 	}
 
-	public boolean isDone() {
+	public Boolean isDone() {
 		return done;
 	}
 
-	public void setDone(boolean done) {
+	public void setDone(Boolean done) {
 		this.done = done;
 	}
+
+	public String getEventTime() {
+		return eventTime;
+	}
+
+	public void setEventTime(String eventTime) {
+		this.eventTime = eventTime;
+	}
+
+	public Integer getDurationTime() {
+		return durationTime;
+	}
+
+	public void setDurationTime(Integer durationTime) {
+		this.durationTime = durationTime;
+	}
+
+	public Boolean getDone() {
+		return done;
+	}
+	
+	
+	
 }

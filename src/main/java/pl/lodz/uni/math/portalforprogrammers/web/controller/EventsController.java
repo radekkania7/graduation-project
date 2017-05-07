@@ -12,9 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import pl.lodz.uni.math.portalforprogrammers.model.Event;
 import pl.lodz.uni.math.portalforprogrammers.model.PortalUser;
@@ -25,6 +27,7 @@ import pl.lodz.uni.math.portalforprogrammers.service.UserService;
 import pl.lodz.uni.math.portalforprogrammers.userhelper.LoggedinUserHelper;
 
 @Controller
+@SessionAttributes("nameofuser")
 public class EventsController {
 	
 	private static final Logger logger = Logger.getLogger(EventsController.class);
@@ -41,6 +44,11 @@ public class EventsController {
 	@Autowired
 	private UserService userService;
 	
+	@ModelAttribute("nameofuser")
+	public String nameOfLoggedInUser() {
+		return LoggedinUserHelper.getLoggedinUserName();
+	}
+	
 	@RequestMapping(value = "/createnewevent", method = RequestMethod.GET)
 	public String createNewEvent(Model model) {
 		model.addAttribute("event", new Event());
@@ -48,24 +56,7 @@ public class EventsController {
 		model.addAttribute("sports",sportService.findAllSports());
 		return "newevent";
 	}
-	
-	/*
-	@RequestMapping(value = "/createnewevent", method = RequestMethod.POST)
-	public String proccessForm(@Valid Event event, BindingResult result, Model model) {
-		
-		if (result.hasErrors()) {
-			return "newevent";
-		}
-		
-		event.setEventDate(new Date(19248327));
-		eventService.save(event);
-		model.addAttribute("event", event);
-		return "redirect:/eventinfo/" + event.getId();
-	} 
-	*/
-	
-	//alternatywna wersja kontrolera.
-	
+			
 	@RequestMapping(value = "/createnewevent", method = RequestMethod.POST)
 	public String processFormAlternative(@Valid Event event, BindingResult result, 
 			Model model, HttpServletRequest request) {
@@ -81,15 +72,31 @@ public class EventsController {
 		if (stringDate == null) {
 			return "newevent";
 		}
-		
+				
 		eventDate = getDate(stringDate);
+		
+		java.util.Date utilDate = new java.util.Date();
+		java.sql.Date dateNow = new java.sql.Date(utilDate.getTime());
+		
+		if (!(eventDate.after(dateNow)) && !(eventDate.equals(dateNow))) {
+			return "newevent";
+		}
+		
+		logger.debug(dateNow.toString());
+		
 		event.setEventDate(eventDate);
 		eventService.save(event);
 		model.addAttribute("event", event);
 		return "redirect:/eventinfo/" + event.getId();
 	}
 	
-	
+	@RequestMapping(value = "/events", method = RequestMethod.GET)
+	public String getEventList(Model model) {
+		List<Event> actualEvents = eventService.findActualEvents();
+		model.addAttribute("events", actualEvents);
+		return "eventslist";
+	}
+			
 	/**
 	 * Metohod converts String to java.sql.Date;
 	 * @param dateText
@@ -131,7 +138,6 @@ public class EventsController {
 		List<PortalUser> users = event.getEventUsers();
 		
 		if (users.contains(user)) {
-			//TODO dodac info o tym ze juz nalezysz do wydarzenia.
 			return "event";
 		}
 		
