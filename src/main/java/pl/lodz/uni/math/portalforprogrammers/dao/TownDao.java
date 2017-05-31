@@ -10,4 +10,6 @@ public interface TownDao {
 	public Town findTownByName(String name);
 
 	public Town findTownById(Integer id);
+
+	public void save(Town town);
 }

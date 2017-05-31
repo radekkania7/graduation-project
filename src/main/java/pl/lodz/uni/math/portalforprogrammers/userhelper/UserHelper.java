@@ -3,7 +3,7 @@ package pl.lodz.uni.math.portalforprogrammers.userhelper;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
-public class LoggedinUserHelper {
+public class UserHelper {
 	
 	/**
 	 * Method returns name of actual logged in user.

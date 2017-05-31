@@ -13,9 +13,6 @@
 	<definition name="home" extends="base"> 
 		<put-attribute name="body" value="/WEB-INF/view/home.jsp" />
 	</definition> 
-		<definition name="home" extends="base"> 
-		<put-attribute name="body" value="/WEB-INF/view/home.jsp" />
-	</definition>
 	<definition name="registerform" extends="base"> 
 		<put-attribute name="body" value="/WEB-INF/view/registerform.jsp" />
 	</definition>  
@@ -39,5 +36,14 @@
 	</definition>
 	<definition name="notfound" extends="base">
 		<put-attribute name="body" value="/WEB-INF/view/notfound.jsp"/>
+	</definition>
+	<definition name="addgame" extends="base">
+		<put-attribute name="body" value="/WEB-INF/view/addgame.jsp"/>
+	</definition>
+		<definition name="editprofile" extends="base">
+		<put-attribute name="body" value="/WEB-INF/view/editprofile.jsp"/>
+	</definition>
+	<definition name="userssport" extends="base">
+		<put-attribute name="body" value="/WEB-INF/view/userssport.jsp"/>
 	</definition>
 </tiles-definitions>

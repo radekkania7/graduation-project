@@ -11,4 +11,6 @@ public interface TownService {
 	public Town getTownByName(String name);
 
 	public Town findTownById(Integer id);
+	
+	public void save(Town town);
 }

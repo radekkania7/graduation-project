@@ -32,4 +32,9 @@ public class TownServiceImpl implements TownService {
 		return dao.findTownById(id);
 	}
 
+	@Override
+	public void save(Town town) {
+		dao.save(town);
+	}
+
 }

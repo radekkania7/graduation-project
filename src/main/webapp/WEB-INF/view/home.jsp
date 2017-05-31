@@ -1,42 +1,41 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page session="false" %>
-<h1>Strona domowa</h1>
-<h3>nazwaUzytkownika: ${username}</h3>
-<h3>imie: ${user.firstName} </h3>
-<h3>nazwisko: ${user.lastName} </h3>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="sf" %>
 
-<h2> TWOJE SPORTY </h2>
+<h3>INFORMACJE</h3>
+<div> nazwaUzytkownika: ${nickname} </div>
+<div> imie: ${user.firstName} ${user.lastName} </div>
 
-<c:forEach items="${user.userSports}" var="sport">
-	Sport: ${sport.sport.name} 
+<h3> FOTO </h3>
+
+<img src="/portal_content/img/anonymous.png" />
+
+<h3> TWOJE SPORTY </h3>
+<c:forEach items="${user.userSports}" var="usersport">
+	Sport: ${usersport.sport.name} 
+	<a href="<c:url value='/usersport/${usersport.id}' />" class="btn btn-success custom-width">Pokaz statystyki</a> <br/>
 </c:forEach>
 
-<h2> AKTUALNE WYDARZENIA </h2>
+<h3> DZISIEJSZE WYDARZENIA </h3>
 
-<c:forEach items="${actual}" var="event">
-		${event.description} ${event.eventDate} 
+<c:forEach items="${today}" var="event">
+	<a href="<c:url value='/eventinfo/${event.id}' />" class="btn btn-success custom-width">Pokaz wydarzenie</a> <br/>
+</c:forEach>
+
+<h3> NADCHODZACE WYDARZENIA </h3>
+<c:forEach items="${upcoming}" var="event">
+		${event.description} 
+		${event.eventDate}
+		${event.startTime}
+		${event.stopTime}
 		<a href="<c:url value='/eventinfo/${event.id}' />" class="btn btn-success custom-width">Pokaz wydarzenie</a> <br/>
 </c:forEach>
 
-<h2> HISTORIA WYDARZEN </h2>
-
+<h3> HISTORIA WYDARZEN </h3>
 <c:forEach items="${history}" var="event">
-		${event.description} ${event.eventDate} 
+		${event.description} 
+		${event.eventDate}
+		${event.startTime}
+		${event.stopTime}
 		<a href="<c:url value='/eventinfo/${event.id}' />" class="btn btn-success custom-width">Pokaz wydarzenie</a> <br/>
 </c:forEach>
-
-<h2> RANKINGI </h2>
-
-//TODOSIK ;)
-
-<h2> wczytywanie profilowki xd </h2>
-
-//trzeba zrobic jeszcze raz jako multipart file- springowo
-
-	<form method="POST" action="upload" enctype="multipart/form-data">
-		File to upload: <input type="file" name="file"> 
-		<input type="submit" value="Upload"> Press here to upload the file!
-	</form>	
-	
-<h2>Foto</h2>
-

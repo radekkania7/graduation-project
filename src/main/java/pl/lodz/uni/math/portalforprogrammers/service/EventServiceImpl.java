@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import pl.lodz.uni.math.portalforprogrammers.dao.EventDao;
 import pl.lodz.uni.math.portalforprogrammers.model.Event;
+import pl.lodz.uni.math.portalforprogrammers.model.EventStatus;
 
 @Service("eventService")
 @Transactional
@@ -28,7 +29,7 @@ public class EventServiceImpl implements EventService {
 
 	@Override
 	public List<Event> findActualEventsByParam(String townName, String sportName) {
-		return dao.findActualEventsByPara(townName, sportName);
+		return dao.findActualEventsByParam(townName, sportName);
 	}
 
 	@Override
@@ -44,6 +45,16 @@ public class EventServiceImpl implements EventService {
 	@Override
 	public void update(Event event) {
 		dao.updateEvent(event);
+	}
+
+	@Override
+	public List<Event> findEventsByStatus(EventStatus status) {
+		return dao.findEventsByStatus(status);
+	}
+
+	@Override
+	public List<Event> findEventByUserNameAndSportName(Integer userId, Integer sportId) {
+		return dao.findEventByUserNameAndSport(userId, sportId);
 	}
 	
 }

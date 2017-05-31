@@ -5,6 +5,9 @@
 	<a href="<c:url value='/' />" class="btn btn-success custom-width">Twoj profil</a> <br/>
 </div>
 <div>
+	<a href="<c:url value='/editprofile' />" class="btn btn-success custom-width">Edytuj profil</a> <br/>
+</div>
+<div>
 	<a href="<c:url value='/events' />" class="btn btn-success custom-width">Szukaj wydarzen</a> <br/>
 </div>
 <div>

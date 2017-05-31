@@ -26,7 +26,7 @@ public class Sport implements Serializable {
 	private String name;
 	
 	@Column(name="TEAM", nullable=false)
-	private boolean isTeamSport;
+	private boolean teamSport;
 	
 	@OneToMany(mappedBy="sport")
 	private Set<UserSport> userSports = new HashSet<UserSport>();
@@ -67,10 +67,11 @@ public class Sport implements Serializable {
 	}
 
 	public boolean isTeamSport() {
-		return isTeamSport;
+		return teamSport;
 	}
 
-	public void setTeamSport(boolean isTeamSport) {
-		this.isTeamSport = isTeamSport;
+	public void setTeamSport(boolean teamSport) {
+		this.teamSport = teamSport;
 	}
+
 }

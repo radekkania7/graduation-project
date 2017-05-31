@@ -2,8 +2,11 @@ package pl.lodz.uni.math.portalforprogrammers.model;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.sql.Time;
+import java.util.LinkedList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -14,6 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -31,17 +35,24 @@ public class Event implements Serializable {
 	@NotNull
 	private String description;
 	
-	@Column(name="EVENT_DATE", nullable=false)
+	@Column(name="EVENT_DATE")
 	private Date eventDate;
 	
-	@Column(name="EVENT_TIME")
-	private String eventTime;
+	@Column(name="START_TIME")
+	private Time startTime;
 	
-	@Column(name="DURATION_TIME")
-	private Integer durationTime;
+	@Column(name="STOP_TIME")
+	private Time stopTime;
 	
-	@Column(name="DONE")
-	private Boolean done;
+	/*
+	 * Status can be 
+	 * 0 - not actual event
+	 * 1 - upcoming event
+	 * 2 - today upcoming event
+	 * 3 - ongoing event
+	 */
+	@Column(name="STATUS")
+	private Integer status;
 	
 	@Column(name="PLAYERS_LIMIT")
 	@NotNull
@@ -56,6 +67,9 @@ public class Event implements Serializable {
 	@NotNull
 	@JoinColumn(name="SPORT_ID")
 	private Sport eventSport;
+	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "event", cascade = CascadeType.ALL)
+	private List<Game> eventGames = new LinkedList<Game>();
 	
 	public Sport getEventSport() {
 		return eventSport;
@@ -114,39 +128,41 @@ public class Event implements Serializable {
 	public Date getEventDate() {
 		return eventDate;
 	}
+	
+	public Time getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(Time startTime) {
+		this.startTime = startTime;
+	}
+
+	public Time getStopTime() {
+		return stopTime;
+	}
+
+	public void setStopTime(Time stopTime) {
+		this.stopTime = stopTime;
+	}
 
 	public void setEventDate(Date eventDate) {
 		this.eventDate = eventDate;
 	}
 
-	public Boolean isDone() {
-		return done;
+	public Integer getStatus() {
+		return status;
 	}
 
-	public void setDone(Boolean done) {
-		this.done = done;
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 
-	public String getEventTime() {
-		return eventTime;
+	public List<Game> getEventGames() {
+		return eventGames;
 	}
 
-	public void setEventTime(String eventTime) {
-		this.eventTime = eventTime;
+	public void setEventGames(List<Game> eventGames) {
+		this.eventGames = eventGames;
 	}
-
-	public Integer getDurationTime() {
-		return durationTime;
-	}
-
-	public void setDurationTime(Integer durationTime) {
-		this.durationTime = durationTime;
-	}
-
-	public Boolean getDone() {
-		return done;
-	}
-	
-	
 	
 }

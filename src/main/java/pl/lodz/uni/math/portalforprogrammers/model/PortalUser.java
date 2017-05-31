@@ -2,13 +2,13 @@ package pl.lodz.uni.math.portalforprogrammers.model;
 
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -70,8 +70,8 @@ public class PortalUser implements Serializable {
     @Column(name="DATE_OF_BIRTH", nullable=false)
     private Date dateOfBirth;
     
-    @OneToMany(mappedBy="user")
-    private Set<UserSport> userSports = new HashSet<UserSport>();
+    @OneToMany(fetch = FetchType.EAGER, mappedBy="user", cascade=CascadeType.ALL)
+    private List<UserSport> userSports = new LinkedList<UserSport>();
         
     @OneToMany(mappedBy="evaluator")
     private List<Rating> evaluatedValues = new LinkedList<Rating>();
@@ -117,11 +117,11 @@ public class PortalUser implements Serializable {
 		this.recivedValues = recivedValues;
 	}
 
-	public Set<UserSport> getUserSports() {
+	public List<UserSport> getUserSports() {
 		return userSports;
 	}
 
-	public void setUserSports(Set<UserSport> userSports) {
+	public void setUserSports(List<UserSport> userSports) {
 		this.userSports = userSports;
 	}
 

@@ -12,4 +12,9 @@ public class GameDaoImpl extends AbstracDao<Integer, Game> implements GameDao {
 		persist(game);
 	}
 
+	@Override
+	public Game findById(Integer id) {
+		return getByKey(id);
+	}
+
 }

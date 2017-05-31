@@ -34,4 +34,9 @@ public class TownDaoImpl extends AbstracDao<Integer, Town> implements TownDao {
 		return getByKey(id);
 	}
 
+	@Override
+	public void save(Town town) {
+		persist(town);
+	}
+
 }

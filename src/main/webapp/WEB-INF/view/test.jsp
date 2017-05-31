@@ -1,25 +1,15 @@
+<%@ page session="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="sf" %>
 
-<form method="POST">
-	<div>
-		<label for="eventSport" > Sport </label>
-		<select>
-			<c:forEach items="${sports}" var="sport">
-				<option value="value">${sport.name}</option>
-			</c:forEach>
-		</select>
+<sf:form method="POST" modelAttribute="sport">
+	<sf:input type="hidden" path="id"/>
+	<div>	
+		<sf:label path="name">Miasto</sf:label>
+		<sf:input path="name" />
+		<sf:errors path="name" />
 	</div>
 	<div>
-		<label for="eventTown" > Miasto </label>
-		<select>
-			<c:forEach items="${towns}" var="town">
-				<option value="value">${town.name}</option>
-			</c:forEach>
-		</select>
+		<input type="submit" value="Dodaj miasto" />
 	</div>
-	<div>
-		<input type="submit" value="Utwórz Wydarzenie" />
-	</div>
-</form>
-
-&{eventTown}
+</sf:form>
