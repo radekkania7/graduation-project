@@ -17,4 +17,9 @@ public class GameDaoImpl extends AbstracDao<Integer, Game> implements GameDao {
 		return getByKey(id);
 	}
 
+	@Override
+	public void updateGame(Game game) {
+		update(game);
+	}
+
 }

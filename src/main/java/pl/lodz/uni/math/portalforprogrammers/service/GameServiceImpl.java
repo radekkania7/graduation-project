@@ -24,4 +24,9 @@ public class GameServiceImpl implements GameService {
 		return gameDao.findById(id);
 	}
 
+	@Override
+	public void updateGame(Game game) {
+		gameDao.updateGame(game);
+	}
+
 }

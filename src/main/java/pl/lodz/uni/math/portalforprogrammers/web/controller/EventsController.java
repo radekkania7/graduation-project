@@ -207,8 +207,8 @@ public class EventsController {
 		logger.debug("Saved: " + game.toString());
 		return "redirect:/eventinfo/" + id;
 	}
-	
-	@RequestMapping(value = "/eventinfo/${eventId}/game/${gameId}/confirm", method = RequestMethod.POST)
+
+	@RequestMapping(value = "/eventinfo/{eventId}/game/{gameId}/confirm", method = RequestMethod.POST)
 	public String confirmGame(HttpServletRequest req,
 			@PathVariable String eventId,
 			@PathVariable String gameId) {

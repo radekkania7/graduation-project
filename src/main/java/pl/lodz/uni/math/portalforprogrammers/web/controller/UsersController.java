@@ -1,5 +1,8 @@
 package pl.lodz.uni.math.portalforprogrammers.web.controller;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -72,4 +75,70 @@ public class UsersController {
 		}
 		return ev;
 	}
+	
+	/**
+	 * Upload single file using Spring Controller
+	 */
+	@RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
+	public String uploadFileHandler(@RequestParam("file") MultipartFile file, Model model) {
+		String info = null;
+		String username = UserHelper.getLoggedinUserName();
+
+		if (!file.isEmpty()) {
+			try {
+				byte[] bytes = file.getBytes();
+
+				// Creating the directory to store file
+				String rootPath = System.getProperty("catalina.home");
+				File dir = new File(rootPath + File.separator + "tmpFiles");
+				if (!dir.exists())
+					dir.mkdirs();
+
+				// Create the file on server
+				File serverFile = new File(dir.getAbsolutePath()
+						+ File.separator + username);
+				BufferedOutputStream stream = new BufferedOutputStream(
+						new FileOutputStream(serverFile));
+				stream.write(bytes);
+				stream.close();
+
+				logger.debug("Server File Location=" + serverFile.getAbsolutePath());
+				info = "Twoje zdjęcie zostało dodane";
+			} catch (Exception e) {
+				info = "Blad podczas wczytywania";
+				logger.debug("upload filed", e);
+			}
+		} else {
+			info = "Pusty plik";
+		}
+		model.addAttribute("info", info);
+		return "editprofile";
+	}
+	
+	/*
+	@RequestMapping(value="/userphoto", method=RequestMethod.GET)
+	public void showImage(HttpServletResponse response) throws Exception {
+		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		
+		try {
+			BufferedImage image = FileUtils.getImage(USERNAME);
+			ImageIO.write(image, "jpeg", stream);
+		} catch (IllegalArgumentException e) {
+			logger.debug(e);
+		} catch (IOException e) {
+			logger.debug(e);
+		}
+		
+		byte[] imgByte = stream.toByteArray();
+		
+		response.setHeader("Cache-Control", "no-store");
+	    response.setHeader("Pragma", "no-cache");
+	    response.setDateHeader("Expires", 0);
+	    response.setContentType("image/jpeg");
+	    ServletOutputStream responseOutputStream = response.getOutputStream();
+	    responseOutputStream.write(imgByte);
+	    responseOutputStream.flush();
+	    responseOutputStream.close();
+	}
+	*/
 }
