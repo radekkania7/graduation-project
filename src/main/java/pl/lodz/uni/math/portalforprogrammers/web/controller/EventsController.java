@@ -122,14 +122,17 @@ public class EventsController {
 		if (event.getStatus() == 0) {
 			if (event.getEventSport().isTeamSport() == false) {
 				model.addAttribute("game", new Game());
+			} else {
+				//TODO DODAJ Team Event
 			}
-			//model.addAttribute("game", new TeamGame());
 		}
 		
 		model.addAttribute("event", event);
 		model.addAttribute("flag", flag);
 		return "event";
 	}
+	
+	
 	
 	@RequestMapping(value = "/eventinfo/{id}", method = RequestMethod.POST)
 	public String joinEvent(@PathVariable String id, Model model) {
@@ -214,7 +217,16 @@ public class EventsController {
 			@PathVariable String gameId) {
 			Game game = gameService.findGameById(Integer.valueOf(gameId));
 			game.setConfirm(true);
+			gameService.updateGame(game);
+			logger.debug("Game with id =" + gameId + " confirmed");
 		return "redirect:/eventinfo/" + eventId;
+	}
+	
+	public String addMark(HttpServletRequest req,
+			@PathVariable String eventId,
+			@PathVariable String gameId) {
+		
+		return null;
 	}
 
 }

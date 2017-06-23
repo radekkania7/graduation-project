@@ -70,14 +70,22 @@ public class PortalUser implements Serializable {
     @Column(name="DATE_OF_BIRTH", nullable=false)
     private Date dateOfBirth;
     
-    @OneToMany(fetch = FetchType.EAGER, mappedBy="user", cascade=CascadeType.ALL)
+    @OneToMany(fetch=FetchType.EAGER, mappedBy="user", cascade=CascadeType.ALL)
     private List<UserSport> userSports = new LinkedList<UserSport>();
         
+    //TODO do usunięcia chyba
     @OneToMany(mappedBy="evaluator")
     private List<Rating> evaluatedValues = new LinkedList<Rating>();
     
+    //TODO to tez
     @OneToMany(mappedBy="rated")
     private List<Rating> recivedValues = new LinkedList<Rating>();
+    
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="evaluatedUser", cascade=CascadeType.ALL)
+    private List<Mark> evaluatedMarks = new LinkedList<Mark>();
+    
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="evaluativeUser", cascade=CascadeType.ALL)
+    private List<Mark> evaluativeMarks = new LinkedList<Mark>();
     
 	@ManyToMany
 	@JoinTable(name="EVENT_USERS",
@@ -226,6 +234,5 @@ public class PortalUser implements Serializable {
 		} else if (!nickname.equals(other.nickname))
 			return false;
 		return true;
-	}
-	
+	}	
 }

@@ -54,22 +54,31 @@ public class Event implements Serializable {
 	@Column(name="STATUS")
 	private Integer status;
 	
-	@Column(name="PLAYERS_LIMIT")
 	@NotNull
+	@Column(name="PLAYERS_LIMIT")
 	private Integer playersLimit;
 	
+	@NotNull
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="TOWN_ID")
-	@NotNull
 	private Town eventTown;
 	
-	@ManyToOne(fetch=FetchType.EAGER)
 	@NotNull
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="SPORT_ID")
 	private Sport eventSport;
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "event", cascade = CascadeType.ALL)
+	@OneToMany(fetch=FetchType.EAGER, mappedBy="event", cascade=CascadeType.ALL)
 	private List<Game> eventGames = new LinkedList<Game>();
+	
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="mark", cascade=CascadeType.ALL)
+	private List<Mark> eventMarks = new LinkedList<Mark>();
+	
+	@ManyToMany
+	@JoinTable(name="EVENT_USERS",
+			joinColumns=@JoinColumn(name="EVENT_ID", referencedColumnName="EVENT_ID"),
+			inverseJoinColumns=@JoinColumn(name="USER_ID", referencedColumnName="USER_ID"))
+	private List<PortalUser> eventUsers;
 	
 	public Sport getEventSport() {
 		return eventSport;
@@ -78,12 +87,6 @@ public class Event implements Serializable {
 	public void setEventSport(Sport eventSport) {
 		this.eventSport = eventSport;
 	}
-
-	@ManyToMany
-	@JoinTable(name="EVENT_USERS",
-			joinColumns=@JoinColumn(name="EVENT_ID", referencedColumnName="EVENT_ID"),
-			inverseJoinColumns=@JoinColumn(name="USER_ID", referencedColumnName="USER_ID"))
-	private List<PortalUser> eventUsers;
 	
 	public Integer getPlayersLimit() {
 		return playersLimit;
@@ -164,5 +167,6 @@ public class Event implements Serializable {
 	public void setEventGames(List<Game> eventGames) {
 		this.eventGames = eventGames;
 	}
+	
 	
 }

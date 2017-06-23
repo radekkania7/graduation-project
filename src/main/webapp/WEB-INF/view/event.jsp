@@ -50,6 +50,34 @@ SPORT: ${event.eventSport.name} <br/>
 	<c:choose>
 		<c:when test = "${isTeam == true}">
 			
+			<form method="POST" action="<c:url value = '/eventinfo/${event.id}/addmark' />" >
+				<div>
+					<label for="opponentName" > Przeciwnik </label>
+					<select name="opponentName">
+						<c:forEach items="${event.eventUsers}" var="user">
+							<c:set var ="name" value = "${user.nickname}" />
+							<c:if test = "${name != nameofuser}" >
+								<option value="${name}">${name}</option>
+							</c:if>
+						</c:forEach>
+					</select>
+				</div>
+				<div>
+					<label for="mark" > Ocena </label>
+					<select name="mark">
+						<option>1</option>
+						<option>2</option>
+						<option>3</option>
+						<option>4</option>
+						<option>5</option>
+					</select>
+				</div>
+				
+				<div>
+					<input type="submit" value="Dodaj ocenę" />
+				</div>
+			</form>
+			
 		</c:when>
 		<c:otherwise>
 			
