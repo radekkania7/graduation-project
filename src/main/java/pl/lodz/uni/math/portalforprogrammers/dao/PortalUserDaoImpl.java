@@ -19,6 +19,7 @@ public class PortalUserDaoImpl extends AbstracDao<Integer, PortalUser> implement
 		if (user != null) {
 			Hibernate.initialize(user.getUserSports());
 			Hibernate.initialize(user.getUserEvents());
+			Hibernate.initialize(user.getEvaluativeMarks());
 		}
 		
 		return user;

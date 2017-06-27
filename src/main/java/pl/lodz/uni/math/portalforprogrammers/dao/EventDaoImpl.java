@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import pl.lodz.uni.math.portalforprogrammers.model.Event;
 import pl.lodz.uni.math.portalforprogrammers.model.EventStatus;
+import pl.lodz.uni.math.portalforprogrammers.model.PortalUser;
 
 @Repository("eventDao")
 public class EventDaoImpl extends AbstracDao<Integer, Event> implements EventDao {
@@ -36,8 +37,11 @@ public class EventDaoImpl extends AbstracDao<Integer, Event> implements EventDao
 	@Override
 	public Event findEventById(Integer id) {
 		Event event = getByKey(id);
-		if (event != null) {
+		if (event != null && event.getEventUsers() != null) {
 			Hibernate.initialize(event.getEventUsers());
+			for (PortalUser u : event.getEventUsers()) {
+				Hibernate.initialize(u.getEvaluatedMarks());
+			}
 		}
 		return event;
 	}

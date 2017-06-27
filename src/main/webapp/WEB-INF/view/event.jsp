@@ -1,5 +1,6 @@
 <%@ page session="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="sf" %>
 
 <h3> INFORMACJE O WYDARZENIU </h3>
@@ -63,8 +64,8 @@ SPORT: ${event.eventSport.name} <br/>
 					</select>
 				</div>
 				<div>
-					<label for="mark" > Ocena </label>
-					<select name="mark">
+					<label for="markValue" > Ocena </label>
+					<select name="markValue">
 						<option>1</option>
 						<option>2</option>
 						<option>3</option>
@@ -76,8 +77,7 @@ SPORT: ${event.eventSport.name} <br/>
 				<div>
 					<input type="submit" value="Dodaj ocenę" />
 				</div>
-			</form>
-			
+			</form>			
 		</c:when>
 		<c:otherwise>
 			
@@ -111,20 +111,47 @@ SPORT: ${event.eventSport.name} <br/>
 					<input type="submit" value="Dodaj rozgrywke" />
 				</div>
 			</form>
+			
+			<c:if test="${info ne null}">
+				${info}
+			</c:if>
+			
 		</c:otherwise>
 	</c:choose>
 </c:if>
-			
-<h3> WYNIKI GIER </h3>
 
-<c:forEach items="${event.eventGames}" var="game">
-	${game.desc} 
-	${game.hostUser.nickname} ${game.hostResult} : ${game.guestResult} ${game.guestUser.nickname} potwierdzone: ${game.confirm}
-	<c:set var = "name" value="${game.guestUser.nickname}" />
-	<c:if test="${name == nameofuser}" >
-		<form method="POST" action="<c:url value = '/eventinfo/${event.id}/game/${game.id}/confirm' />" >
-			<input type="submit" value="Potwierdz Wynik">
-		</form>
-	</c:if>
-	<br/>
-</c:forEach>
+<c:choose>
+	<c:when test="${isTeam eq true}">
+		<h3> SREDNIA OCENA ZA MECZ </h3>	
+		<c:forEach items="${event.eventUsers}" var="user">	
+			<c:set var="sum" value="${0}" />
+			<c:set var="count" value="${fn:length(user.evaluatedMarks)}" />
+			<c:choose>
+				<c:when test="${count eq 0}" >
+					<c:set var="avg" value="${0}" />
+				</c:when>
+				<c:otherwise>
+					<c:forEach items="${user.evaluatedMarks}" var="mark">
+						<c:set var="sum" value="${sum + mark.value}" />
+					</c:forEach>
+				<c:set var = "avg" value = "${sum/count}" />
+				</c:otherwise>
+			</c:choose>
+			${user.nickname} ${avg} ${count} <br/>
+		</c:forEach>
+	</c:when>
+	<c:otherwise>
+		<h3> WYNIKI GIER </h3>
+		<c:forEach items="${event.eventGames}" var="game">
+			${game.desc} 
+			${game.hostUser.nickname} ${game.hostResult} : ${game.guestResult} ${game.guestUser.nickname} potwierdzone: ${game.confirm}
+			<c:set var = "name" value="${game.guestUser.nickname}" />
+			<c:if test="${name == nameofuser}" >
+				<form method="POST" action="<c:url value = '/eventinfo/${event.id}/game/${game.id}/confirm' />" >
+					<input type="submit" value="Potwierdz Wynik">
+				</form>
+			</c:if>
+			<br/>
+		</c:forEach>
+	</c:otherwise>
+</c:choose>

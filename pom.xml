@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.springframework.samples.service.service</groupId>
   <artifactId>portalForActivePeople</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.5-SNAPSHOT</version>
   <packaging>war</packaging>
   
     <properties>
@@ -203,13 +203,13 @@
                     <version>2.4</version>
                     <configuration>
                         <warSourceDirectory>src/main/webapp</warSourceDirectory>
-                        <warName>portalForActivePeople-0.0.1-SNAPSHOT</warName>
+                        <warName>portal-${servlet.version}</warName>
                         <failOnMissingWebXml>false</failOnMissingWebXml>
                     </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
-        <finalName>portalForActivePeople</finalName>
+        <finalName>portal</finalName>
     </build>
 	
 </project>

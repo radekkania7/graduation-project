@@ -20,21 +20,27 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import pl.lodz.uni.math.portalforprogrammers.model.Event;
 import pl.lodz.uni.math.portalforprogrammers.model.EventStatus;
 import pl.lodz.uni.math.portalforprogrammers.model.Game;
+import pl.lodz.uni.math.portalforprogrammers.model.Mark;
 import pl.lodz.uni.math.portalforprogrammers.model.PortalUser;
 import pl.lodz.uni.math.portalforprogrammers.model.Sport;
 import pl.lodz.uni.math.portalforprogrammers.model.Town;
 import pl.lodz.uni.math.portalforprogrammers.service.EventService;
 import pl.lodz.uni.math.portalforprogrammers.service.GameService;
+import pl.lodz.uni.math.portalforprogrammers.service.MarkService;
 import pl.lodz.uni.math.portalforprogrammers.service.SportService;
 import pl.lodz.uni.math.portalforprogrammers.service.TownService;
 import pl.lodz.uni.math.portalforprogrammers.service.UserService;
 import pl.lodz.uni.math.portalforprogrammers.userhelper.UserHelper;
+import pl.lodz.uni.math.portalforprogrammers.utils.ComponentValidator;
 
 @Controller
 @SessionAttributes({"nameofuser", "listOfTowns", "listOfSports"})
 public class EventsController {
 	
 	private static final Logger logger = Logger.getLogger(EventsController.class);
+	
+	@Autowired
+	private MarkService markService;
 	
 	@Autowired
 	private EventService eventService;
@@ -123,7 +129,7 @@ public class EventsController {
 			if (event.getEventSport().isTeamSport() == false) {
 				model.addAttribute("game", new Game());
 			} else {
-				//TODO DODAJ Team Event
+				//TODO DODAJ Team Event 
 			}
 		}
 		
@@ -222,11 +228,32 @@ public class EventsController {
 		return "redirect:/eventinfo/" + eventId;
 	}
 	
-	public String addMark(HttpServletRequest req,
+	@RequestMapping(value = "/eventinfo/{eventId}/addmark", method = RequestMethod.POST)
+	public String addMark(HttpServletRequest request, Model model,
 			@PathVariable String eventId,
-			@PathVariable String gameId) {
+			@RequestParam String opponentName,
+			@RequestParam Integer markValue) {
 		
-		return null;
+		String info = null;
+		
+		Mark mark = new Mark();
+		mark.setEvaluatedUser(userService.findUserByUsername(opponentName));
+		String username = nameOfLoggedInUser();
+		mark.setEvalutiveUser(userService.findUserByUsername(username));
+		mark.setEvent(eventService.findEventById(Integer.valueOf(eventId)));
+		mark.setValue(markValue);
+		
+		
+		if (ComponentValidator.isValidateMark(mark)) {
+			markService.save(mark);
+			info = "Dodano ocene";
+			logger.debug("poprawne dane");
+			return "redirect:/eventinfo/" + eventId;
+		} 
+		
+		info = "Ocena nie zostala dodana";
+		model.addAttribute(info);
+		logger.debug("nie poprawne dane");
+		return "redirect:/eventinfo/" + eventId;
 	}
-
 }
