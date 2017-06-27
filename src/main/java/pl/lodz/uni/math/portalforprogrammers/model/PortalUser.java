@@ -84,7 +84,7 @@ public class PortalUser implements Serializable {
     @OneToMany(fetch=FetchType.LAZY, mappedBy="evaluatedUser", cascade=CascadeType.ALL)
     private List<Mark> evaluatedMarks = new LinkedList<Mark>();
     
-    @OneToMany(fetch=FetchType.LAZY, mappedBy="evaluativeUser", cascade=CascadeType.ALL)
+    @OneToMany(fetch=FetchType.LAZY, mappedBy="evalutiveUser", cascade=CascadeType.ALL)
     private List<Mark> evaluativeMarks = new LinkedList<Mark>();
     
 	@ManyToMany
@@ -93,6 +93,22 @@ public class PortalUser implements Serializable {
 			inverseJoinColumns=@JoinColumn(name="EVENT_ID", referencedColumnName="EVENT_ID"))
 	private List<Event> userEvents;
 	
+	public List<Mark> getEvaluatedMarks() {
+		return evaluatedMarks;
+	}
+
+	public void setEvaluatedMarks(List<Mark> evaluatedMarks) {
+		this.evaluatedMarks = evaluatedMarks;
+	}
+
+	public List<Mark> getEvaluativeMarks() {
+		return evaluativeMarks;
+	}
+
+	public void setEvaluativeMarks(List<Mark> evaluativeMarks) {
+		this.evaluativeMarks = evaluativeMarks;
+	}
+
 	public List<Event> getUserEvents() {
 		return userEvents;
 	}

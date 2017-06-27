@@ -71,7 +71,7 @@ public class Event implements Serializable {
 	@OneToMany(fetch=FetchType.EAGER, mappedBy="event", cascade=CascadeType.ALL)
 	private List<Game> eventGames = new LinkedList<Game>();
 	
-	@OneToMany(fetch=FetchType.LAZY, mappedBy="mark", cascade=CascadeType.ALL)
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="event", cascade=CascadeType.ALL)
 	private List<Mark> eventMarks = new LinkedList<Mark>();
 	
 	@ManyToMany
@@ -80,6 +80,14 @@ public class Event implements Serializable {
 			inverseJoinColumns=@JoinColumn(name="USER_ID", referencedColumnName="USER_ID"))
 	private List<PortalUser> eventUsers;
 	
+	public List<Mark> getEventMarks() {
+		return eventMarks;
+	}
+
+	public void setEventMarks(List<Mark> eventMarks) {
+		this.eventMarks = eventMarks;
+	}
+
 	public Sport getEventSport() {
 		return eventSport;
 	}
@@ -167,6 +175,5 @@ public class Event implements Serializable {
 	public void setEventGames(List<Game> eventGames) {
 		this.eventGames = eventGames;
 	}
-	
 	
 }
