@@ -36,7 +36,7 @@ import pl.lodz.uni.math.portalforprogrammers.utils.ComponentValidator;
 @Controller
 @SessionAttributes({"nameofuser", "listOfTowns", "listOfSports"})
 public class EventsController {
-	
+
 	private static final Logger logger = Logger.getLogger(EventsController.class);
 	
 	@Autowired
@@ -128,16 +128,13 @@ public class EventsController {
 		if (event.getStatus() == 0) {
 			if (event.getEventSport().isTeamSport() == false) {
 				model.addAttribute("game", new Game());
-			} else {
-				//TODO DODAJ Team Event 
-			}
+			} 
 		}
 		
 		model.addAttribute("event", event);
 		model.addAttribute("flag", flag);
 		return "event";
 	}
-	
 	
 	
 	@RequestMapping(value = "/eventinfo/{id}", method = RequestMethod.POST)
@@ -221,6 +218,7 @@ public class EventsController {
 	public String confirmGame(HttpServletRequest req,
 			@PathVariable String eventId,
 			@PathVariable String gameId) {
+		
 			Game game = gameService.findGameById(Integer.valueOf(gameId));
 			game.setConfirm(true);
 			gameService.updateGame(game);
@@ -235,14 +233,13 @@ public class EventsController {
 			@RequestParam Integer markValue) {
 		
 		String info = null;
-		
 		Mark mark = new Mark();
-		mark.setEvaluatedUser(userService.findUserByUsername(opponentName));
 		String username = nameOfLoggedInUser();
+		
+		mark.setEvaluatedUser(userService.findUserByUsername(opponentName));
 		mark.setEvalutiveUser(userService.findUserByUsername(username));
 		mark.setEvent(eventService.findEventById(Integer.valueOf(eventId)));
 		mark.setValue(markValue);
-		
 		
 		if (ComponentValidator.isValidateMark(mark)) {
 			markService.save(mark);

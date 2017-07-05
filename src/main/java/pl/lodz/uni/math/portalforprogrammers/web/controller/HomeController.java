@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -18,9 +17,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import pl.lodz.uni.math.portalforprogrammers.model.Event;
 import pl.lodz.uni.math.portalforprogrammers.model.EventStatus;
 import pl.lodz.uni.math.portalforprogrammers.model.PortalUser;
-import pl.lodz.uni.math.portalforprogrammers.model.UserSport;
 import pl.lodz.uni.math.portalforprogrammers.service.UserService;
-import pl.lodz.uni.math.portalforprogrammers.service.UserSportService;
 import pl.lodz.uni.math.portalforprogrammers.userhelper.UserHelper;
 
 
@@ -29,7 +26,7 @@ import pl.lodz.uni.math.portalforprogrammers.userhelper.UserHelper;
 public class HomeController {	
 	
 	private static final Logger logger = Logger.getLogger(HomeController.class);
-		
+	 
 	@Autowired
 	private UserService userService;
 	
@@ -68,6 +65,7 @@ public class HomeController {
 				upcoming.add(e);
 			}
 		}	
+		
 		map.put("today", today);
 		map.put("upcoming", upcoming);
 		map.put("history", history);

@@ -5,6 +5,7 @@ import org.hibernate.Hibernate;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
+import pl.lodz.uni.math.portalforprogrammers.model.Event;
 import pl.lodz.uni.math.portalforprogrammers.model.PortalUser;
 
 @Repository("userDao")
@@ -21,7 +22,6 @@ public class PortalUserDaoImpl extends AbstracDao<Integer, PortalUser> implement
 			Hibernate.initialize(user.getUserEvents());
 			Hibernate.initialize(user.getEvaluativeMarks());
 		}
-		
 		return user;
 	}
 
@@ -32,7 +32,15 @@ public class PortalUserDaoImpl extends AbstracDao<Integer, PortalUser> implement
 
 	@Override
 	public PortalUser findById(Integer id) {
-		return getByKey(id);
+		PortalUser user = getByKey(id);
+		if (user != null) {
+			Hibernate.initialize(user.getUserEvents());
+			for (Event e : user.getUserEvents()) {
+				Hibernate.initialize(e.getEventUsers());
+				Hibernate.initialize(e.getEventMarks());
+			}
+			Hibernate.initialize(user.getEvaluatedMarks());
+		}
+		return user;
 	}
-
 }

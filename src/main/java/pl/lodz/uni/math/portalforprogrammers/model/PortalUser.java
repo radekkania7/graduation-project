@@ -70,17 +70,6 @@ public class PortalUser implements Serializable {
     @Column(name="DATE_OF_BIRTH", nullable=false)
     private Date dateOfBirth;
     
-    @OneToMany(fetch=FetchType.EAGER, mappedBy="user", cascade=CascadeType.ALL)
-    private List<UserSport> userSports = new LinkedList<UserSport>();
-        
-    //TODO do usunięcia chyba
-    @OneToMany(mappedBy="evaluator")
-    private List<Rating> evaluatedValues = new LinkedList<Rating>();
-    
-    //TODO to tez
-    @OneToMany(mappedBy="rated")
-    private List<Rating> recivedValues = new LinkedList<Rating>();
-    
     @OneToMany(fetch=FetchType.LAZY, mappedBy="evaluatedUser", cascade=CascadeType.ALL)
     private List<Mark> evaluatedMarks = new LinkedList<Mark>();
     
@@ -93,6 +82,20 @@ public class PortalUser implements Serializable {
 			inverseJoinColumns=@JoinColumn(name="EVENT_ID", referencedColumnName="EVENT_ID"))
 	private List<Event> userEvents;
 	
+	@ManyToMany
+	@JoinTable(name="USER_SPORTS",
+			joinColumns=@JoinColumn(name="USER_ID", referencedColumnName="USER_ID"),
+			inverseJoinColumns=@JoinColumn(name="SPORT_ID", referencedColumnName="SPORT_ID"))
+	private List<Sport> userSports;
+	
+	public List<Sport> getUserSports() {
+		return userSports;
+	}
+
+	public void setUserSports(List<Sport> userSports) {
+		this.userSports = userSports;
+	}
+
 	public List<Mark> getEvaluatedMarks() {
 		return evaluatedMarks;
 	}
@@ -123,30 +126,6 @@ public class PortalUser implements Serializable {
 
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
-	}
-
-	public List<Rating> getEvaluatedValues() {
-		return evaluatedValues;
-	}
-
-	public void setEvaluatedValues(List<Rating> evaluatedValues) {
-		this.evaluatedValues = evaluatedValues;
-	}
-
-	public List<Rating> getRecivedValues() {
-		return recivedValues;
-	}
-
-	public void setRecivedValues(List<Rating> recivedValues) {
-		this.recivedValues = recivedValues;
-	}
-
-	public List<UserSport> getUserSports() {
-		return userSports;
-	}
-
-	public void setUserSports(List<UserSport> userSports) {
-		this.userSports = userSports;
 	}
 
 	public String getNickname() {

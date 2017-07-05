@@ -21,8 +21,9 @@ import pl.lodz.uni.math.portalforprogrammers.service.converter.TownNameToTownObj
 
 @Configuration
 @EnableWebMvc
-@ComponentScan( {"pl.lodz.uni.math.portalforprogrammers.web", 
-	"pl.lodz.uni.math.portalforprogrammers.service.converter"} )
+@ComponentScan(basePackages = {"pl.lodz.uni.math.portalforprogrammers.web", 
+	"pl.lodz.uni.math.portalforprogrammers.service.converter",
+	"lodz.uni.portal.logic.utils"} )
 public class WebConfig extends WebMvcConfigurerAdapter {
 	
 	@Autowired 

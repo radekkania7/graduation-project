@@ -1,10 +1,8 @@
 package pl.lodz.uni.math.portalforprogrammers.web.controller;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,31 +12,33 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.multipart.MultipartFile;
 
 import pl.lodz.uni.math.portalforprogrammers.model.Event;
 import pl.lodz.uni.math.portalforprogrammers.model.PortalUser;
-import pl.lodz.uni.math.portalforprogrammers.model.UserSport;
+import pl.lodz.uni.math.portalforprogrammers.model.Sport;
 import pl.lodz.uni.math.portalforprogrammers.service.EventService;
+import pl.lodz.uni.math.portalforprogrammers.service.SportService;
 import pl.lodz.uni.math.portalforprogrammers.service.UserService;
-import pl.lodz.uni.math.portalforprogrammers.service.UserSportService;
 import pl.lodz.uni.math.portalforprogrammers.userhelper.UserHelper;
+import pl.lodz.uni.math.portalforprogrammers.utils.UserStatistic;
 
 @Controller
 @SessionAttributes({"nameofuser"})
 public class UsersController {
 	private static final Logger logger = Logger.getLogger(UsersController.class);
 	
-	@Autowired
-	private UserSportService userSportService;
+	private final String NOT_FOUND_PAGE = "notfoud";
+	private final String USER_SPORT_PAGE = "userssport";
 	
 	@Autowired
 	UserService userService;
 	
 	@Autowired
 	EventService eventService;
+	
+	@Autowired
+	SportService sportService;
 	
 	@ModelAttribute("nameofuser")
 	public String nameOfLoggedInUser() {
@@ -55,30 +55,53 @@ public class UsersController {
 		return "user";
 	}
 	
-	@RequestMapping(value = "/usersport/{userSportId}", method=RequestMethod.GET)
-	public String getUserSportPage(@PathVariable String userSportId, Model model)  {
-		UserSport userSport = userSportService.findById(Integer.valueOf(userSportId));
-		List<Event> userEvents = userSport.getUser().getUserEvents();
-		//Map<Event, List<Game>> thisSportEvents = getEventsBySport(userSport.getSport().getId(), userEvents);
-		List<Event> thisSportEvents = getEventsBySport(userSport.getSport().getId(), userEvents);
-		model.addAttribute("usersport", userSport);
-		model.addAttribute("events", thisSportEvents);
-		return "userssport";
-	}
-
-	private List<Event> getEventsBySport(Integer sportId, List<Event> events) {
-		List<Event> ev = new LinkedList<Event>();
-		for (Event e : events) {
-			if (e.getId() == sportId) {
-				ev.add(e);
-			}
+	@RequestMapping(value = "/usersport/{userId}/{sportId}", method=RequestMethod.GET)
+	public String getUserSportPage(@PathVariable String userId,
+								   @PathVariable String sportId, Model model)  {
+		
+		Sport sport = sportService.findSportById(Integer.parseInt(sportId));
+		PortalUser user = userService.findUserById(Integer.parseInt(userId));
+		
+		if (user == null || sport == null) {
+			return NOT_FOUND_PAGE;
 		}
-		return ev;
+		
+		List<Event> userSportEvents = getUserEventsBySport(user, sport);
+		
+		model.addAttribute("sport", sport);
+		model.addAttribute("user", user);
+		model.addAttribute("events", userSportEvents);
+		
+		if (sport.isTeamSport() == true) {
+			UserStatistic statistic = new UserStatistic(user);
+			Map<Event, Double> eventsWithAvg = statistic.getMapAvgPerEeachEventAtSport(sport);
+			Double avarage = statistic.getAvgBySport(sport);
+			model.addAttribute("avarage", avarage);
+			model.addAttribute("eventsWithAvg", eventsWithAvg);
+			model.addAttribute("markCountPerEvent", statistic.getMarkCount());
+			model.addAttribute("marksCount", statistic.getMarkCount());
+		}
+		
+		return USER_SPORT_PAGE;
 	}
 	
-	/**
-	 * Upload single file using Spring Controller
+	/*
+	 * Function gets events with user participations at chosen sport
 	 */
+	private List<Event> getUserEventsBySport(PortalUser user, Sport sport) {
+		List<Event> userEvents = user.getUserEvents();
+		List<Event> resultEvents = new LinkedList<>();
+		for (Event event : userEvents) {
+			if (event.getEventSport().equals(sport)) {
+				resultEvents.add(event);
+			}
+		}
+		logger.debug("count of founded events =" + resultEvents.size());
+		return resultEvents;
+	}
+	
+			
+	/*
 	@RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
 	public String uploadFileHandler(@RequestParam("file") MultipartFile file, Model model) {
 		String info = null;
@@ -114,6 +137,7 @@ public class UsersController {
 		model.addAttribute("info", info);
 		return "editprofile";
 	}
+	*/
 	
 	/*
 	@RequestMapping(value="/userphoto", method=RequestMethod.GET)

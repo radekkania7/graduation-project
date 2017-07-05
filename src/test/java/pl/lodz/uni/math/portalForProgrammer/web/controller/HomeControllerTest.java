@@ -1,10 +1,9 @@
 package pl.lodz.uni.math.portalForProgrammer.web.controller;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
-import org.junit.Test;
 import org.springframework.test.web.servlet.MockMvc;
 
 import pl.lodz.uni.math.portalforprogrammers.web.controller.HomeController;

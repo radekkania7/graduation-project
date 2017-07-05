@@ -11,9 +11,8 @@
 <img src="/portal_content/img/anonymous.png" />
 
 <h3> TWOJE SPORTY </h3>
-<c:forEach items="${user.userSports}" var="usersport">
-	Sport: ${usersport.sport.name} 
-	<a href="<c:url value='/usersport/${usersport.id}' />" class="btn btn-success custom-width">Pokaz statystyki</a> <br/>
+<c:forEach items="${user.userSports}" var="sport"> 
+	<a href="<c:url value='/usersport/${user.id}/${sport.id}' />" class="btn btn-success custom-width">Pokaz statystyki</a> <br/>
 </c:forEach>
 
 <h3> DZISIEJSZE WYDARZENIA </h3>

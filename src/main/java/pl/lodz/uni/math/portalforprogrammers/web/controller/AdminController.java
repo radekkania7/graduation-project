@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import pl.lodz.uni.math.portalforprogrammers.model.Sport;
-import pl.lodz.uni.math.portalforprogrammers.model.Town;
 import pl.lodz.uni.math.portalforprogrammers.service.SportService;
 import pl.lodz.uni.math.portalforprogrammers.service.TownService;
 
