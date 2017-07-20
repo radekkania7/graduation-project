@@ -51,10 +51,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http
 		.authorizeRequests()
 		.antMatchers("/register").permitAll()
-		.antMatchers("/adminPanel").hasRole("ADMIN")
-		.antMatchers("/**").hasRole("USER")
+		.antMatchers("/adminPanel").access("hasRole('ADMIN')")
+		.antMatchers("/").access("hasRole('USER')")
 		.and().formLogin()
 		.and().csrf().disable();
 	}
-	//TODO CUSTOM login page -> sprawdzanie roli czy posiada ROLE "ACTIVE";
+
 }

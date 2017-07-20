@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lodz.uni.portal.model.PortalUser;
 import lodz.uni.portal.model.UserProfile;
+import lodz.uni.portal.model.type.UserAccountStatusType;
 
 @Service("portalUserDetailsService")
 public class PortalUserDetailsService implements UserDetailsService {
@@ -31,10 +32,23 @@ public class PortalUserDetailsService implements UserDetailsService {
 		if (portalUser == null) {
 			throw new UsernameNotFoundException("User not found");
 		}
+		
+		boolean enabled = isUserEnabled(portalUser);
+
 		return new User(portalUser.getNickname(), 
 						portalUser.getPassword(), 
-						true, true, true, true,
+						enabled, true, true, true,
 						getUserGrantedAuthorities(portalUser));
+	}
+	
+	private boolean isUserEnabled(PortalUser user) {
+		String activeStatus = UserAccountStatusType.ACTIVE.getType();
+		String userStatus = user.getUserAccountStatus().getType();
+		boolean enabled = false;
+		if (activeStatus.equals(userStatus)) {
+			enabled = true;
+		}
+		return enabled;
 	}
 	
 	private List<GrantedAuthority> getUserGrantedAuthorities(PortalUser user) {
@@ -47,5 +61,5 @@ public class PortalUserDetailsService implements UserDetailsService {
 		logger.info("Found " + authorities.size() + " authorities");
 		return authorities;
 	}
-
+	
 }

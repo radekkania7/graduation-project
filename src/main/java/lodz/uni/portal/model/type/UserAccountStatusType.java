@@ -11,7 +11,7 @@ public enum UserAccountStatusType {
 		this.accountStatusType = accountStatusType;
 	}
 	
-	public String getUserAccountStatusType() {
+	public String getType() {
 		return accountStatusType;
 	}
 }

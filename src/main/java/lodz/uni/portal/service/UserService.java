@@ -22,7 +22,15 @@ public class UserService {
 		return userDao.findByUsername(username);
 	}
 	
+	public PortalUser findById(Integer id) {
+		return userDao.findById(id);
+	}
+	
 	public List<PortalUser> findAllActiveUsers(String ascOrderColumnName) {
 		return userDao.findAllUsers(ascOrderColumnName);
+	}
+	
+	public void update(PortalUser user) {
+		userDao.updateUser(user);
 	}
 }

@@ -75,6 +75,14 @@ public class PortalUser implements Serializable {
     @JoinColumn(name="ACCOUNT_STATUS_FK")
     private UserAccountStatus userAccountStatus;
     
+	public UserAccountStatus getUserAccountStatus() {
+		return userAccountStatus;
+	}
+
+	public void setUserAccountStatus(UserAccountStatus userAccountStatus) {
+		this.userAccountStatus = userAccountStatus;
+	}
+
 	@ManyToMany
 	@JoinTable(name="EVENT_USERS",
 			joinColumns=@JoinColumn(name="USER_ID", referencedColumnName="USER_ID"),

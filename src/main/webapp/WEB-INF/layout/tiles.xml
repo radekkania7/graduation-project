@@ -25,10 +25,10 @@
 	</definition> 
 
 	<definition name="eventsList" extends="base"> 
-		<put-attribute name="body" value="/WEB-INF/view/eventsList.jsp" />
+		<put-attribute name="body" value="/WEB-INF/view/event/eventsList.jsp" />
 	</definition>
 		<definition name="event" extends="base"> 
-		<put-attribute name="body" value="/WEB-INF/view/event.jsp" />
+		<put-attribute name="body" value="/WEB-INF/view/event/event.jsp" />
 	</definition>
 	<definition name="upload" extends="base"> 
 		<put-attribute name="body" value="/WEB-INF/view/upload.jsp" />
@@ -40,7 +40,7 @@
 		<put-attribute name="body" value="/WEB-INF/view/user.jsp" />
 	</definition>
 	<definition name="newEvent" extends="base">
-		<put-attribute name="body" value="/WEB-INF/view/newEvent.jsp" />
+		<put-attribute name="body" value="/WEB-INF/view/event/newEvent.jsp" />
 	</definition>
 	<definition name="notFound" extends="base">
 		<put-attribute name="body" value="/WEB-INF/view/notFound.jsp"/>

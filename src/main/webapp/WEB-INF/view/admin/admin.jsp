@@ -5,15 +5,35 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="sf" %>
 <%@ page session="false" %>
 
-PANEL ADMINISTRATORA
+<h3> PANEL ADMINISTRATORA </h3>
 
+<c:if test="${info ne null}">
+	${info}
+</c:if>
 
-NOWE KONTA -> ZATWIERDZ
-
+<h4> NOWE KONTA -> ZATWIERDZ </h4>
 <c:forEach items="${createdUsers}" var="user">
-	${user.id} ${user.nickname}
+	<c:url var="action" value="/panelAdmin/ACTIVE/${user.id}" />
+	<sf:form id="activateForm" method="POST" action="${action}">
+		${user.id} ${user.nickname} 
+		<input type="submit" value="AKTYWUJ KONTO"/>
+	</sf:form>
 </c:forEach>
 
+<h4> LISTA UZYTKOWNIKOW AKTYWNYCH -> ZABLOKUJ </h4>
+<c:forEach items="${activeUsers}" var="user" >
+	<c:url var="action" value="/panelAdmin/DISABLE/${user.id}" />
+	<form id="disableForm"  method="POST" action="${action}">
+		${user.id} ${user.nickname} 
+		<input type="submit" value="ZABLOKUJ KONTO"/>
+	</form>
+</c:forEach>
 
-LISTA UZYTKOWNIKOW ZABLOKUJ/ ODBLOKUJ
-
+<h4> LISTA UZYTKOWNIKOW ZABLOKOWANYCH -> AKTYWUJ </h4>
+<c:forEach items="${disabledUsers}" var="user">
+	<c:url var="action" value="/panelAdmin/ACTIVE/${user.id}" />
+	<form id="activate" method="POST" action="${action}">
+		${user.id} ${user.nickname} 
+		<input type="submit" value="AKTYWUJ KONTO"/>
+	</form>
+</c:forEach>
