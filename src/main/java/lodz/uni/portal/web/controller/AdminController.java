@@ -87,5 +87,4 @@ public class AdminController {
 			model.addAttribute("info", SUCCESS_DISABLED_ACCOUNT);
 		}
 	} 
-
 }
