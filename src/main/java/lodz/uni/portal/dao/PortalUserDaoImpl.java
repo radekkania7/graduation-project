@@ -55,5 +55,10 @@ public class PortalUserDaoImpl extends BaseDao<Integer, PortalUser> implements P
 	public List<PortalUser> findAllUsers(String ascOrderColumnName) {
 		return super.getAllElements(ascOrderColumnName);
 	}
-	
+
+	@Override
+	public PortalUser getUserByEmail(String propertyValue) {
+		return getByField("email", propertyValue);
+	}
+
 }

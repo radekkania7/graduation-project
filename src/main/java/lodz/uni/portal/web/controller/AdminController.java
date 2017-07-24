@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import lodz.uni.portal.service.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -18,7 +19,6 @@ import lodz.uni.portal.model.PortalUser;
 import lodz.uni.portal.model.UserAccountStatus;
 import lodz.uni.portal.model.type.UserAccountStatusType;
 import lodz.uni.portal.service.UserAccountStatusService;
-import lodz.uni.portal.service.UserService;
 
 @Controller
 public class AdminController {

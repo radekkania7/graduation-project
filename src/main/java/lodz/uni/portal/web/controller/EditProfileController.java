@@ -23,7 +23,7 @@ public class EditProfileController {
 	private static final String SUBSCRIBED_SPORT = "sport jest juz dodany do twoich zainteresowan";
 	
 	@Autowired
-	UserService userService;
+    UserService userService;
 	
 	@RequestMapping(method=RequestMethod.GET)
 	public String getEditPage(RedirectAttributes model) {

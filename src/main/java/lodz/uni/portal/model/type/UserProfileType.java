@@ -4,16 +4,15 @@ import java.io.Serializable;
 
 public enum UserProfileType implements Serializable {
 	USER("USER"),
-	ACTIVE_ACCOUNT("ACTIVE"),
 	ADMIN("ADMIN");
 	
 	String userProfileType;
 	
-	private UserProfileType(String userProfileType) {
+	UserProfileType(String userProfileType) {
 		this.userProfileType = userProfileType;
 	}
 	
-	public String getUserProfileType() {
+	public String getType() {
 		return userProfileType;
 	}
 }

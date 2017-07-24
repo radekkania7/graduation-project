@@ -14,4 +14,6 @@ public interface PortalUserDao {
 	public void updateUser(PortalUser user);
 	
 	public List<PortalUser> findAllUsers(String ascOrderColumnName);
+
+	public PortalUser getUserByEmail(String email);
 }

@@ -8,6 +8,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public abstract class BaseDao<PK extends Serializable, T> {
@@ -49,6 +50,12 @@ public abstract class BaseDao<PK extends Serializable, T> {
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		List<T> elements = (List<T>) criteria.list();
 		return elements;
+	}
+
+	public T getByField(String propertyName, String propertyValue) {
+		Criteria criteria = getEntityCriteria();
+		criteria.add(Restrictions.eq(propertyName, propertyValue));
+		return (T) criteria.uniqueResult();
 	}
 	
 	protected Criteria getEntityCriteria() {

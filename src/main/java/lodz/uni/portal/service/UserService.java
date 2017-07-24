@@ -21,16 +21,30 @@ public class UserService {
 	public PortalUser findByUsername(String username) {
 		return userDao.findByUsername(username);
 	}
-	
+
 	public PortalUser findById(Integer id) {
 		return userDao.findById(id);
 	}
-	
-	public List<PortalUser> findAllActiveUsers(String ascOrderColumnName) {
-		return userDao.findAllUsers(ascOrderColumnName);
-	}
-	
+
 	public void update(PortalUser user) {
 		userDao.updateUser(user);
+	}
+
+	public void save(PortalUser user) {
+		userDao.save(user);
+	}
+
+	public boolean isNicknameUnique(String username) {
+		PortalUser user = userDao.findByUsername(username);
+		return (user != null);
+	}
+
+	public boolean isEmailUnique(String email) {
+		PortalUser user = userDao.getUserByEmail(email);
+		return (user != null);
+	}
+
+	public List<PortalUser> findAllActiveUsers(String ascOrderColumnName) {
+		return userDao.findAllUsers(ascOrderColumnName);
 	}
 }

@@ -4,6 +4,10 @@
 
 <h1> register form </h1>
 
+<c:if test="${info ne null}" >
+	"${info}"
+</c:if>
+
 <sf:form method="POST" modelAttribute="user" >
 	<sf:input type="hidden" path="id"/>
 	<div>	
@@ -27,14 +31,19 @@
 		<sf:errors path="email" />
 	</div>
 	<div>
-		<sf:label path="password">Password</sf:label>
+		<sf:label path="password">Haslo</sf:label>
 		<sf:password path="password"/>
 		<sf:errors path="password" />
 	</div>
 	<div>
-		<sf:label path="confirmPassword">Confirm Password</sf:label>
+		<sf:label path="confirmPassword">Potwierdz haslo</sf:label>
 		<sf:password path="confirmPassword"/>
 		<sf:errors path="confirmPassword" />
+	</div>
+	<div>
+		<sf:label path="dateOfBirth">Wybierz date urodzenia</sf:label>
+		<sf:input path="dateOfBirth" type="date" />
+		<sf:errors path="dateOfBirth"/>
 	</div>
 	<div>
 		<input type="submit" value="Zarejestruj" />

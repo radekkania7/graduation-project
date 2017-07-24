@@ -10,9 +10,15 @@
 	<definition name="adminPanel" extends="out-of-login">
 		<put-attribute name="body" value="/WEB-INF/view/admin/admin.jsp" />
 	</definition>
-	<definition name="registerform" extends="base"> 
-		<put-attribute name="body" value="/WEB-INF/view/registerform.jsp" />
-	</definition>  
+	<definition name="registerform" extends="out-of-login">
+		<put-attribute name="body" value="/WEB-INF/view/register/registerform.jsp" />
+	</definition>
+	<definition name="registersuccess" extends="out-of-login">
+		<put-attribute name="body" value="/WEB-INF/view/register/registersuccess.jsp" />
+	</definition>
+	<definition name="notFound" extends="out-of-login">
+		<put-attribute name="body" value="/WEB-INF/view/notFound.jsp"/>
+	</definition>
 	
 	<definition name = "base"
 		template="/WEB-INF/layout/in/page.jsp">
@@ -21,9 +27,8 @@
 		<put-attribute name="menu"	value="/WEB-INF/layout/in/menu.jsp" />
 	</definition>
 	<definition name="home" extends="base"> 
-		<put-attribute name="body" value="/WEB-INF/view/home.jsp" />
-	</definition> 
-
+		<put-attribute name="body" value="/WEB-INF/view/loggedinUser/home.jsp" />
+	</definition>
 	<definition name="eventsList" extends="base"> 
 		<put-attribute name="body" value="/WEB-INF/view/event/eventsList.jsp" />
 	</definition>
@@ -42,14 +47,12 @@
 	<definition name="newEvent" extends="base">
 		<put-attribute name="body" value="/WEB-INF/view/event/newEvent.jsp" />
 	</definition>
-	<definition name="notFound" extends="base">
-		<put-attribute name="body" value="/WEB-INF/view/notFound.jsp"/>
-	</definition>
+
 	<definition name="addgame" extends="base">
 		<put-attribute name="body" value="/WEB-INF/view/addgame.jsp"/>
 	</definition>
 		<definition name="editProfile" extends="base">
-		<put-attribute name="body" value="/WEB-INF/view/editProfile.jsp"/>
+		<put-attribute name="body" value="/WEB-INF/view/loggedinUser/editProfile.jsp"/>
 	</definition>
 	<definition name="usersSport" extends="base">
 		<put-attribute name="body" value="/WEB-INF/view/usersSport.jsp"/>

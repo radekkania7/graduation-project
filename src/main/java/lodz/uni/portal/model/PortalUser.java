@@ -18,6 +18,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -33,35 +34,30 @@ public class PortalUser implements Serializable {
 	private Integer id;
 	
     @Column(name="NICKNAME", nullable=false)
-    @NotEmpty
+	@Size(min=8, max=15)
     private String nickname;
     
     @Column(name="FIRSTNAME", nullable=false)
-    @NotEmpty
+	@Size(min=3, max=20)
     private String firstName;
-    
+
     @Column(name="LASTNAME", nullable=false)
-    @NotEmpty
-    private String lastName;
+	@Size(min=3, max=20)
+	private String lastName;
     
     @Column(name="EMAIL", nullable=false)
-    @NotEmpty
     @Email
+	@Size(min=5, max=25)
     private String email;
 
     @Column(name="PASSWORD", nullable=false)
-    @NotEmpty
+	@Size(min=8, max=12)
     private String password;
     
     @Column(name="CONFIRMPASS")
+	@Size(min=8, max=12)
     private String confirmPassword;
-    
-    @Column(name="ENABLED")
-    private boolean isEnabled;
-    
-    @Column(name="ROLE", nullable=false)
-    private String role;
-    
+
     @Column(name="DATE_OF_BIRTH", nullable=false)
     private Date dateOfBirth;
     
@@ -197,28 +193,12 @@ public class PortalUser implements Serializable {
 		this.password = password;
 	}
 
-	public boolean isEnabled() {
-		return isEnabled;
-	}
-
-	public void setEnabled(boolean isEnabled) {
-		this.isEnabled = isEnabled;
-	}
-
 	public Integer getId() {
 		return id;
 	}
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	public String getRole() {
-		return role;
-	}
-
-	public void setRole(String role) {
-		this.role = role;
 	}
 
 	@Override
