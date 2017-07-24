@@ -12,7 +12,6 @@ public class UserProfileDaoImpl extends BaseDao<Integer, UserProfile> implements
     public UserProfile getProfileByType(String type) {
         Criteria criteria = getEntityCriteria();
         criteria.add(Restrictions.eq("type", type));
-        UserProfile profile = (UserProfile) criteria.uniqueResult();
-        return profile;
+        return (UserProfile) criteria.uniqueResult();
     }
 }

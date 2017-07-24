@@ -50,12 +50,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 				.antMatchers("/register").permitAll()
+				.antMatchers("/panelAdmin").access("hasRole('ADMIN')")
 				.antMatchers("/homepage").access("hasRole('USER')")
-				.antMatchers("/adminPanel").access("hasRole('ADMIN')")
 				.and().formLogin().defaultSuccessUrl("/homepage")
 				.and().csrf().disable();
-		//TODO -> zabawa z dostepami do stron.
-		//user moze wejsc na panel admina, nie powinien
 	}
 
 }

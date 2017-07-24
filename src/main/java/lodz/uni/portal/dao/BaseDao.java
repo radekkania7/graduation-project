@@ -48,8 +48,7 @@ public abstract class BaseDao<PK extends Serializable, T> {
 	public List<T> getAllElements(String ascOrderColumnName) {
 		Criteria criteria = getEntityCriteria().addOrder(Order.asc(ascOrderColumnName));
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-		List<T> elements = (List<T>) criteria.list();
-		return elements;
+		return (List<T>) criteria.list();
 	}
 
 	public T getByField(String propertyName, String propertyValue) {

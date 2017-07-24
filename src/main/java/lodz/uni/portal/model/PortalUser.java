@@ -18,6 +18,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
@@ -51,7 +52,7 @@ public class PortalUser implements Serializable {
     private String email;
 
     @Column(name="PASSWORD", nullable=false)
-	@Size(min=8, max=12)
+	@NotNull
     private String password;
     
     @Column(name="CONFIRMPASS")
@@ -62,10 +63,10 @@ public class PortalUser implements Serializable {
     private Date dateOfBirth;
     
     @OneToMany(fetch=FetchType.LAZY, mappedBy="evaluatedUser", cascade=CascadeType.ALL)
-    private List<Mark> evaluatedMarks = new LinkedList<Mark>();
+    private List<Mark> evaluatedMarks = new LinkedList<>();
     
     @OneToMany(fetch=FetchType.LAZY, mappedBy="evalutiveUser", cascade=CascadeType.ALL)
-    private List<Mark> evaluativeMarks = new LinkedList<Mark>();
+    private List<Mark> evaluativeMarks = new LinkedList<>();
     
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="ACCOUNT_STATUS_FK")
@@ -95,7 +96,7 @@ public class PortalUser implements Serializable {
 	@JoinTable(name = "APP_USER_USER_PROFILE",
 			joinColumns = { @JoinColumn(name = "USER_ID") },
 			inverseJoinColumns = { @JoinColumn(name = "USER_PROFILE_ID") })
-	private List<UserProfile> userProfiles = new LinkedList<UserProfile>();
+	private List<UserProfile> userProfiles = new LinkedList<>();
 	
 	public List<UserProfile> getUserProfiles() {
 		return userProfiles;

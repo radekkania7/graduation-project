@@ -15,6 +15,7 @@ import lodz.uni.portal.utils.CustomDateUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -120,6 +121,13 @@ public class RegisterController {
 		user.setUserAccountStatus(getCreatedStatus());
 		user.setUserProfiles(getListOfUserProfileWithUserType());
 		user.setConfirmPassword(PASSWORD_CONFIRMED);
+		String ecryptedPassword = getEncryptedPassword(user.getPassword());
+		user.setPassword(ecryptedPassword);
+	}
+
+	private String getEncryptedPassword(String pass){
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		return passwordEncoder.encode(pass);
 	}
 
 	private List<UserProfile> getListOfUserProfileWithUserType() {

@@ -19,6 +19,9 @@
 	<definition name="notFound" extends="out-of-login">
 		<put-attribute name="body" value="/WEB-INF/view/notFound.jsp"/>
 	</definition>
+	<definition name="default" extends="out-of-login">
+		<put-attribute name="body" value="/WEB-INF/view/default/default.jsp" />
+	</definition>
 	
 	<definition name = "base"
 		template="/WEB-INF/layout/in/page.jsp">
