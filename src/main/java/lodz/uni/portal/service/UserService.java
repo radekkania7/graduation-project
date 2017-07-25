@@ -3,6 +3,7 @@ package lodz.uni.portal.service;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +20,11 @@ public class UserService {
 	private PortalUserDao userDao;
 	
 	public PortalUser findByUsername(String username) {
-		return userDao.findByUsername(username);
+		PortalUser user = userDao.findByUsername(username);
+		if (user != null) {
+			Hibernate.initialize(user.getUserProfiles());
+		}
+		return user;
 	}
 
 	public PortalUser findById(Integer id) {

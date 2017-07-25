@@ -50,9 +50,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 				.antMatchers("/register").permitAll()
+				.antMatchers("/").access("hasRole('ADMIN') or hasRole('USER')")
 				.antMatchers("/panelAdmin").access("hasRole('ADMIN')")
 				.antMatchers("/homepage").access("hasRole('USER')")
-				.and().formLogin().defaultSuccessUrl("/homepage")
+				.and().formLogin().defaultSuccessUrl("/")
 				.and().csrf().disable();
 	}
 
