@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import lodz.uni.portal.model.PortalUser;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.sql.Date;
 import java.util.Arrays;
@@ -61,8 +60,7 @@ public class RegisterController {
 
 	@RequestMapping(method=RequestMethod.POST)
 	public String createNewUser(@Valid @ModelAttribute("user") PortalUser user,
-								BindingResult result,
-								RedirectAttributes model) {
+								BindingResult result) {
 
 		validateUserBean(user, result);
 		if (result.hasErrors()) {
@@ -121,8 +119,8 @@ public class RegisterController {
 		user.setUserAccountStatus(getCreatedStatus());
 		user.setUserProfiles(getListOfUserProfileWithUserType());
 		user.setConfirmPassword(PASSWORD_CONFIRMED);
-		String ecryptedPassword = getEncryptedPassword(user.getPassword());
-		user.setPassword(ecryptedPassword);
+		String encryptedPassword = getEncryptedPassword(user.getPassword());
+		user.setPassword(encryptedPassword);
 	}
 
 	private String getEncryptedPassword(String pass){

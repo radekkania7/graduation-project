@@ -12,7 +12,6 @@ public class StringToSqlDateConverter implements Converter<String, Date> {
 
     @Override
     public Date convert(String source) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd mm yyyy");
         LocalDate date = LocalDate.parse(source);
         return Date.valueOf(date);
     }

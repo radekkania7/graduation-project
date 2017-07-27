@@ -43,43 +43,52 @@ public class Event implements Serializable {
 	
 	@Column(name="STOP_TIME")
 	private Time stopTime;
-	
-	/*
-	 * Status can be 
-	 * 0 - not actual event
-	 * 1 - upcoming event
-	 * 2 - today upcoming event
-	 * 3 - ongoing event
-	 */
-	@Column(name="STATUS")
-	private Integer status;
-	
+
 	@NotNull
 	@Column(name="PLAYERS_LIMIT")
 	private Integer playersLimit;
-	
+
 	@NotNull
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(name="TOWN_ID")
-	private Town eventTown;
-	
+	@Column(name="TOWN")
+	private String town;
+
 	@NotNull
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="SPORT_ID")
 	private Sport eventSport;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="EVENT_STATUS_FK")
+	private EventStatus status;
 	
 	@OneToMany(fetch=FetchType.EAGER, mappedBy="event", cascade=CascadeType.ALL)
-	private List<Game> eventGames = new LinkedList<Game>();
+	private List<Game> eventGames = new LinkedList<>();
 	
 	@OneToMany(fetch=FetchType.LAZY, mappedBy="event", cascade=CascadeType.ALL)
-	private List<Mark> eventMarks = new LinkedList<Mark>();
+	private List<Mark> eventMarks = new LinkedList<>();
 	
 	@ManyToMany
 	@JoinTable(name="EVENT_USERS",
 			joinColumns=@JoinColumn(name="EVENT_ID", referencedColumnName="EVENT_ID"),
 			inverseJoinColumns=@JoinColumn(name="USER_ID", referencedColumnName="USER_ID"))
 	private List<PortalUser> eventUsers;
-	
+
+	public String getTown() {
+		return town;
+	}
+
+	public void setTown(String town) {
+		this.town = town;
+	}
+
+	public EventStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(EventStatus status) {
+		this.status = status;
+	}
+
 	public List<Mark> getEventMarks() {
 		return eventMarks;
 	}
@@ -102,14 +111,6 @@ public class Event implements Serializable {
 
 	public void setPlayersLimit(Integer playersLimit) {
 		this.playersLimit = playersLimit;
-	}
-
-	public Town getEventTown() {
-		return eventTown;
-	}
-
-	public void setEventTown(Town eventTown) {
-		this.eventTown = eventTown;
 	}
 
 	public List<PortalUser> getEventUsers() {
@@ -158,14 +159,6 @@ public class Event implements Serializable {
 
 	public void setEventDate(Date eventDate) {
 		this.eventDate = eventDate;
-	}
-
-	public Integer getStatus() {
-		return status;
-	}
-
-	public void setStatus(Integer status) {
-		this.status = status;
 	}
 
 	public List<Game> getEventGames() {

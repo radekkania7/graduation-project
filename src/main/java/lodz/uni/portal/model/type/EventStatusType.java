@@ -2,20 +2,20 @@ package lodz.uni.portal.model.type;
 
 public enum EventStatusType {
 	CREATED("CREATED"),
-	TODAY_UPCOMING("TODAY"),
+	TODAYS_EVENT("TODAY"),
 	INCOMING("INCOMING"),
 	DIRECTLY_AFTER_EVENT("DIRECTLY_AFTER"),
 	TIME_FOR_JUDGE_OPONENTS("TIME_FOR_JUDGE"),
 	TIME_FOR_CONFIRM_RESULTS("TIME_FOR_CONFIRM"),
 	CLOSED("CLOSED");
 	
-	String eventStatusType;
+	String type;
 	
-	private EventStatusType(String eventStatusType) {
-		this.eventStatusType = eventStatusType;
+	EventStatusType(String type) {
+		this.type = type;
 	}
 	
-	public String getEventStatusType() {
-		return eventStatusType;
+	public String getType() {
+		return type;
 	}
 }

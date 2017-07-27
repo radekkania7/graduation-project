@@ -23,7 +23,7 @@ public class UserAccountStatus {
 	private String type;
 	
 	@OneToMany(mappedBy="userAccountStatus")
-	private List<PortalUser> usersWithStatus = new LinkedList<PortalUser>();
+	private List<PortalUser> usersWithStatus = new LinkedList<>();
 
 	public List<PortalUser> getUsersWithThisStatus() {
 		return usersWithStatus;

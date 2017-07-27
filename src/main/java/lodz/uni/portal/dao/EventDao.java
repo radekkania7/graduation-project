@@ -3,7 +3,6 @@ package lodz.uni.portal.dao;
 import java.util.List;
 
 import lodz.uni.portal.model.Event;
-import lodz.uni.portal.model.EventStatus;
 
 public interface EventDao {
 	public void save(Event event);
@@ -18,5 +17,4 @@ public interface EventDao {
 
 	public List<Event> findActualEventsByParam(String townName, String sportName);
 
-	public List<Event> findEventsByStatus(EventStatus status);
 }

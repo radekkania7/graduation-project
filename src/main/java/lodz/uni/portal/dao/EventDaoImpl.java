@@ -10,7 +10,6 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import lodz.uni.portal.model.Event;
-import lodz.uni.portal.model.EventStatus;
 import lodz.uni.portal.model.PortalUser;
 
 @Repository("eventDao")
@@ -84,17 +83,5 @@ public class EventDaoImpl extends BaseDao<Integer, Event> implements EventDao {
 		return (List<Event>) criteria.list();
 	}
 
-	@Override
-	@SuppressWarnings("unchecked")
-	public List<Event> findEventsByStatus(EventStatus status) {
-		Criteria criteria = getEntityCriteria().addOrder(Order.asc("eventDate"));
-		
-		Criterion statusCriterion = Restrictions.eq("status", status.getValue());
-        criteria.add(statusCriterion);
-        criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-        
-        List<Event> events = (List<Event>) criteria.list();
-        return events;
-	}
 
 }
