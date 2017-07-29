@@ -6,19 +6,7 @@ import java.sql.Time;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -60,6 +48,10 @@ public class Event implements Serializable {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="EVENT_STATUS_FK")
 	private EventStatus status;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="USER_CREATOR_FK")
+	private PortalUser userCreator;
 	
 	@OneToMany(fetch=FetchType.EAGER, mappedBy="event", cascade=CascadeType.ALL)
 	private List<Game> eventGames = new LinkedList<>();
@@ -72,6 +64,14 @@ public class Event implements Serializable {
 			joinColumns=@JoinColumn(name="EVENT_ID", referencedColumnName="EVENT_ID"),
 			inverseJoinColumns=@JoinColumn(name="USER_ID", referencedColumnName="USER_ID"))
 	private List<PortalUser> eventUsers;
+
+	public PortalUser getUserCreator() {
+		return userCreator;
+	}
+
+	public void setUserCreator(PortalUser userCreator) {
+		this.userCreator = userCreator;
+	}
 
 	public String getTown() {
 		return town;

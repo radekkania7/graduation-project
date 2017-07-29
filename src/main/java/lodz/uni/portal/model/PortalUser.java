@@ -5,19 +5,7 @@ import java.sql.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -61,17 +49,20 @@ public class PortalUser implements Serializable {
 
     @Column(name="DATE_OF_BIRTH", nullable=false)
     private Date dateOfBirth;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy ="userCreator", cascade = CascadeType.ALL)
+	private List<Event> createdEvents;
     
-    @OneToMany(fetch=FetchType.LAZY, mappedBy="evaluatedUser", cascade=CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "evaluatedUser", cascade = CascadeType.ALL)
     private List<Mark> evaluatedMarks = new LinkedList<>();
     
-    @OneToMany(fetch=FetchType.LAZY, mappedBy="evalutiveUser", cascade=CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "evalutiveUser", cascade = CascadeType.ALL)
     private List<Mark> evaluativeMarks = new LinkedList<>();
     
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="ACCOUNT_STATUS_FK")
     private UserAccountStatus userAccountStatus;
-    
+
 	public UserAccountStatus getUserAccountStatus() {
 		return userAccountStatus;
 	}
@@ -97,7 +88,15 @@ public class PortalUser implements Serializable {
 			joinColumns = { @JoinColumn(name = "USER_ID") },
 			inverseJoinColumns = { @JoinColumn(name = "USER_PROFILE_ID") })
 	private List<UserProfile> userProfiles = new LinkedList<>();
-	
+
+	public List<Event> getCreatedEvents() {
+		return createdEvents;
+	}
+
+	public void setCreatedEvents(List<Event> createdEvents) {
+		this.createdEvents = createdEvents;
+	}
+
 	public List<UserProfile> getUserProfiles() {
 		return userProfiles;
 	}

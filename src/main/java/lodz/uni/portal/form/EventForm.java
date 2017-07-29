@@ -27,6 +27,17 @@ public class EventForm {
     @Size(min = 1, max = 2)
     private String participantLimit;
 
+    @Size(min = 1, max = 250)
+    private String description;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getSport() {
         return sport;
     }

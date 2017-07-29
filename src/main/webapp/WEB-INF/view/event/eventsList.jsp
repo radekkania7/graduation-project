@@ -3,3 +3,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="sf" %>
 
 EVENTS LIST
+
+<sf:form >
+
+</sf:form>

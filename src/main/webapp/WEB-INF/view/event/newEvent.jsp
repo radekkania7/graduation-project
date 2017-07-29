@@ -43,6 +43,11 @@
         <sf:errors path="participantLimit" />
     </div>
     <div>
+        <sf:label path="description" > WPISZ INFORMACJE NA TEMAT WYDARZENIA </sf:label>
+        <sf:input path="description" />
+        <sf:errors path="description" />
+    </div>
+    <div>
         <input type="submit" value="DODAJ WYDARZENIE" />
     </div>
 </sf:form>

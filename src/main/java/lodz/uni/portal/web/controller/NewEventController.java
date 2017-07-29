@@ -51,7 +51,7 @@ public class NewEventController {
 		}
 
 		Event event = getFilledEvent();
-		//persistNewEvent(event);
+		persistNewEvent(event);
 		return REDIRECT_EVENT_INFO_PAGE_BASE;
 	}
 
