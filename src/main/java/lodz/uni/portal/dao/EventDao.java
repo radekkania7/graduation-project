@@ -1,7 +1,9 @@
 package lodz.uni.portal.dao;
 
 import java.util.List;
+import java.util.Map;
 
+import com.sun.xml.internal.org.jvnet.fastinfoset.stax.LowLevelFastInfosetStreamWriter;
 import lodz.uni.portal.model.Event;
 
 public interface EventDao {
@@ -17,4 +19,7 @@ public interface EventDao {
 
 	public List<Event> findActualEventsByParam(String townName, String sportName);
 
+	//nowe API
+
+	List<Event> getByParams(Map<String, Object> params);
 }

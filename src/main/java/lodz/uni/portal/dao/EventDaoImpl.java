@@ -1,6 +1,8 @@
 package lodz.uni.portal.dao;
 
+import java.sql.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
@@ -80,6 +82,28 @@ public class EventDaoImpl extends BaseDao<Integer, Event> implements EventDao {
 		}
 		
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+		return (List<Event>) criteria.list();
+	}
+
+	@Override
+	public List<Event> getByParams(Map<String, Object> params) {
+		Criteria criteria = getSession().createCriteria(Event.class, "event");
+		criteria.createAlias("eventSport.name", "sport");
+
+		Date date = (Date) params.get("date");
+		String sportName = (String) params.get("sport");
+		String town = (String) params.get("town");
+
+		Criterion dateCriterion = Restrictions.eq("eventDate", date);
+		Criterion sportCriterion = Restrictions.eq("sport", sportName);
+		Criterion townCriterion = Restrictions.eq("town", town);
+
+		Criterion expressionFirst = Restrictions.and(sportCriterion, townCriterion);
+		Criterion expressionSecond = Restrictions.and(expressionFirst, dateCriterion);
+
+		criteria.add(expressionSecond);
+		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
+
 		return (List<Event>) criteria.list();
 	}
 

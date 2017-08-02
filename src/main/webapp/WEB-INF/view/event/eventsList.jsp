@@ -4,6 +4,21 @@
 
 EVENTS LIST
 
-<sf:form >
-
+<sf:form modelAttribute="findEventForm" method="post">
+    <div>
+        <sf:label path="town"> WPISZ NAZWE MIASTA</sf:label>
+        <sf:input path="town" />
+        <sf:errors path="town" />
+    </div>
+    <div>
+        <sf:label path="sport"> WYBIERZ SPORT</sf:label>
+        <sf:select path="sport" items="${sportNames}" />
+        <sf:errors path="sport" />
+    </div>
+    <div>
+        <sf:label path="date">WYBIERZ DATE</sf:label>
+        <sf:input path="date" type="date"/>
+        <sf:errors path="date" />
+    </div>
+    <input type="submit" value="SZUKAJ WYDARZEN" />
 </sf:form>
