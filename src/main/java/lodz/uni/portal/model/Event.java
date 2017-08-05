@@ -45,7 +45,7 @@ public class Event implements Serializable {
 	@JoinColumn(name="SPORT_ID")
 	private Sport eventSport;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="EVENT_STATUS_FK")
 	private EventStatus status;
 

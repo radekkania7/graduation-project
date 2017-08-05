@@ -3,6 +3,8 @@ package lodz.uni.portal.web.controller;
 
 
 import lodz.uni.portal.form.FindEventForm;
+import lodz.uni.portal.model.Event;
+import lodz.uni.portal.service.EventsService;
 import lodz.uni.portal.service.NewEventService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.validation.Valid;
+import java.util.List;
 
 
 @Controller
@@ -25,6 +28,9 @@ public class EventsController {
 
 	@Autowired
 	NewEventService newEventService;
+
+	@Autowired
+	EventsService eventsService;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String getEventList(Model model) {
@@ -43,8 +49,17 @@ public class EventsController {
 			return EVENTS_LIST;
 		}
 
+		List<Event> foundedEvents = getFoundedEvents(form);
+		if (foundedEvents.size() > 0) {
+			model.addAttribute("events", foundedEvents);
+		}
+
+		model.addAttribute("sportNames", newEventService.getSportNames());
 		return EVENTS_LIST;
 	}
 
+	private List<Event> getFoundedEvents(FindEventForm form) {
+		return eventsService.findEventsByParams(form);
+	}
 
 }

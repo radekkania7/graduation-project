@@ -22,3 +22,11 @@ EVENTS LIST
     </div>
     <input type="submit" value="SZUKAJ WYDARZEN" />
 </sf:form>
+
+<c:choose>
+    <c:when test="${events ne null}">
+        <c:forEach items="${events}" var="event">
+            przejdz do wydarzeninia:  <a href="<c:url value='/eventInfo/${event.id}' />"> Link <br/>
+        </c:forEach>
+    </c:when>
+</c:choose>

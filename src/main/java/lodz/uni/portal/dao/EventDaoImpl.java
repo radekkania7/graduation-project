@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
+import com.sun.org.apache.regexp.internal.RE;
+import lodz.uni.portal.form.FindEventForm;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.criterion.Criterion;
@@ -40,9 +42,6 @@ public class EventDaoImpl extends BaseDao<Integer, Event> implements EventDao {
 		Event event = getByKey(id);
 		if (event != null && event.getEventUsers() != null) {
 			Hibernate.initialize(event.getEventUsers());
-			for (PortalUser u : event.getEventUsers()) {
-				Hibernate.initialize(u.getEvaluatedMarks());
-			}
 		}
 		return event;
 	}
@@ -68,7 +67,7 @@ public class EventDaoImpl extends BaseDao<Integer, Event> implements EventDao {
 		
 		Criterion townCriterion = null;
 		Criterion sportCriterion = null;
-		
+
 		if (townName != null) {
 			townCriterion = Restrictions.eq("town.name", townName);
 		}
@@ -86,22 +85,26 @@ public class EventDaoImpl extends BaseDao<Integer, Event> implements EventDao {
 	}
 
 	@Override
-	public List<Event> getByParams(Map<String, Object> params) {
+	public List<Event> getByParams(FindEventForm form) {
 		Criteria criteria = getSession().createCriteria(Event.class, "event");
-		criteria.createAlias("eventSport.name", "sport");
+		criteria.createAlias("event.eventSport", "sport");
+		criteria.createAlias("event.status", "status");
 
-		Date date = (Date) params.get("date");
-		String sportName = (String) params.get("sport");
-		String town = (String) params.get("town");
+		Date date = (Date) form.getDate();
+		String sportName = (String) form.getSport();
+		String town = (String) form.getTown();
 
 		Criterion dateCriterion = Restrictions.eq("eventDate", date);
-		Criterion sportCriterion = Restrictions.eq("sport", sportName);
+		Criterion sportCriterion = Restrictions.eq("sport.name", sportName);
 		Criterion townCriterion = Restrictions.eq("town", town);
+		Criterion eventStatusCriterion = Restrictions.eq("status.type", "CREATED");
 
 		Criterion expressionFirst = Restrictions.and(sportCriterion, townCriterion);
-		Criterion expressionSecond = Restrictions.and(expressionFirst, dateCriterion);
+		Criterion expressionSecond = Restrictions.and(dateCriterion, eventStatusCriterion);
 
-		criteria.add(expressionSecond);
+		Criterion finalCriterion = Restrictions.and(expressionFirst, expressionSecond);
+
+		criteria.add(finalCriterion);
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 
 		return (List<Event>) criteria.list();

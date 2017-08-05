@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
@@ -39,7 +40,7 @@ public class NewEventController {
 	@RequestMapping(value = { "/createNewEvent" }, method = RequestMethod.POST)
 	public String processForm(@Valid @ModelAttribute("eventForm") EventForm form,
 							   BindingResult result,
-							   Model model) {
+							   RedirectAttributes model) {
 		this.model = model;
 		this.result = result;
 		this.eventForm = form;
@@ -52,7 +53,8 @@ public class NewEventController {
 
 		Event event = getFilledEvent();
 		persistNewEvent(event);
-		return REDIRECT_EVENT_INFO_PAGE_BASE;
+		model.addFlashAttribute("event", event);
+		return REDIRECT_EVENT_INFO_PAGE_BASE + event.getId();
 	}
 
 	private void validateOtherFiled() {

@@ -9,6 +9,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -202,33 +204,26 @@ public class PortalUser implements Serializable {
 	}
 
 	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((nickname == null) ? 0 : nickname.hashCode());
-		return result;
+	public boolean equals(Object o) {
+		if (this == o) return true;
+
+		if (o == null || getClass() != o.getClass()) return false;
+
+		PortalUser that = (PortalUser) o;
+
+		return new EqualsBuilder()
+				.append(id, that.id)
+				.append(nickname, that.nickname)
+				.append(email, that.email)
+				.isEquals();
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		PortalUser other = (PortalUser) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (nickname == null) {
-			if (other.nickname != null)
-				return false;
-		} else if (!nickname.equals(other.nickname))
-			return false;
-		return true;
-	}	
+	public int hashCode() {
+		return new HashCodeBuilder(17, 37)
+				.append(id)
+				.append(nickname)
+				.append(email)
+				.toHashCode();
+	}
 }

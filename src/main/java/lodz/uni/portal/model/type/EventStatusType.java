@@ -1,12 +1,12 @@
 package lodz.uni.portal.model.type;
 
 public enum EventStatusType {
+	//po utworzeniu,
 	CREATED("CREATED"),
-	TODAYS_EVENT("TODAY"),
-	INCOMING("INCOMING"),
-	DIRECTLY_AFTER_EVENT("DIRECTLY_AFTER"),
-	TIME_FOR_JUDGE_OPONENTS("TIME_FOR_JUDGE"),
-	TIME_FOR_CONFIRM_RESULTS("TIME_FOR_CONFIRM"),
+	DURING("DURING"),
+	//czas na oceny i dodawanie wynikow
+	AFTER("AFTER"),
+	//zamkniete
 	CLOSED("CLOSED");
 	
 	String type;
