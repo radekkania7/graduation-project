@@ -1,22 +1,16 @@
 package lodz.uni.portal.web.controller;
 
-import lodz.uni.portal.model.Event;
-import lodz.uni.portal.model.EventStatus;
-import lodz.uni.portal.model.PortalUser;
-import lodz.uni.portal.model.type.EventStatusType;
+import lodz.uni.portal.form.SingleGameForm;
+import lodz.uni.portal.form.TeamGameForm;
+import lodz.uni.portal.model.*;
 import lodz.uni.portal.service.EachEventService;
-import lodz.uni.portal.service.LoggedInUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.persistence.criteria.CriteriaBuilder;
+import javax.validation.Valid;
 
 @Controller
 public class EachEventController {
@@ -27,38 +21,54 @@ public class EachEventController {
 	private static final String NO_PLACES = "Wszytkie miejsca sa zajete";
 	private static final String LEAVED = "Opusciles wydarzenie";
 	private static final String JOINED = "Dolaczyles do wyadarzenia";
+	private static final String GAME_CREATED = "Dodano nową rozgrywkę";
+	private static final String MARK_ADDED_INFO = "Dodano ocenę";
+	private static final String USER_IS_EVALUATED_INFO = "Ten uzytkownik zostal juz przez Ciebie\n oceniony w ramach tego wydarzenia.\n Ocen pozostalych!";
+
+	private Event globalEvent;
 
 	@Autowired
 	EachEventService eachEventService;
 
-	@Autowired
-	LoggedInUserService loggedInUserService;
-	
 	@RequestMapping(value = { "/eventInfo/{eventId}" }, method = RequestMethod.GET)
 	public String showEvent(@PathVariable String eventId, Model model) {
 		Event event = eachEventService.getEventById(Integer.parseInt(eventId));
-		PortalUser user = loggedInUserService.getLoggedInUser();
+		this.globalEvent = event;
 
-		if (event == null) {
-			return NOT_FOUND;
+		prepareAttributeForAfterEvent(model);
+		prepareButtonValue(model);
+		prepareOtherAttributes(model);
+		return EVENT_PAGE;
+	}
+
+	private void prepareAttributeForAfterEvent(Model model) {
+		if (globalEvent.getEventSport().isTeamSport()) {
+			model.addAttribute("teamGameForm", new TeamGameForm());
+		} else {
+			model.addAttribute("singleGameForm", new SingleGameForm());
 		}
+		model.addAttribute("participantsNames", eachEventService.getParticipantsNamesWithoutLoggedInUser(globalEvent));
+	}
 
-		if (eachEventService.isUserParticipate(user, event)) {
+	private void prepareButtonValue(Model model) {
+		if (eachEventService.isUserParticipate(globalEvent)) {
 			model.addAttribute("bttnValue", "OPUSC WYDARZENIE");
 		} else {
 			model.addAttribute("bttnValue", "WEZ UDZIAL");
 		}
-		model.addAttribute("event", event);
-		model.addAttribute("participants", event.getEventUsers());
-		model.addAttribute("status", event.getStatus().getType());
-		model.addAttribute("isParticipant", eachEventService.isUserParticipate(user, event));
-		return EVENT_PAGE;
+	}
+
+	private void prepareOtherAttributes(Model model) {
+		model.addAttribute("event", globalEvent);
+		model.addAttribute("participants", globalEvent.getEventUsers());
+		model.addAttribute("status", globalEvent.getStatus().getType());
+		model.addAttribute("isParticipant", eachEventService.isUserParticipate(globalEvent));
+		model.addAttribute("loggedInUserName", eachEventService.getLoggedInUser().getNickname());
 	}
 
 	@RequestMapping(value =  "/eventInfo/{eventId}/join" , method = RequestMethod.POST)
 	public String joinEvent(@PathVariable String eventId, RedirectAttributes model) {
 		Event event = eachEventService.getEventById(Integer.parseInt(eventId));
-		PortalUser user = loggedInUserService.getLoggedInUser();
 
 		if (event == null) {
 			return NOT_FOUND;
@@ -69,15 +79,59 @@ public class EachEventController {
 			return REDIRECT_EVENT_INFO_PAGE_BASE + Integer.valueOf(eventId);
 		}
 
-		if (eachEventService.isUserParticipate(user, event) == true){
-			eachEventService.removeUserFromEvenParticipants(user, event);
+		if (eachEventService.isUserParticipate(event)){
+			eachEventService.removeUserFromEvenParticipants(event);
 			model.addFlashAttribute("joinInfo", LEAVED);
 		} else {
-			eachEventService.addUserIntoEventParticipants(user, event);
+			eachEventService.addUserIntoEventParticipants(event);
 			model.addFlashAttribute("joinInfo", JOINED);
 		}
 
 		return REDIRECT_EVENT_INFO_PAGE_BASE + Integer.valueOf(eventId);
 	}
-	
+
+
+	@RequestMapping(value = "/eventInfo/{eventId}/confirm/{gameId}" )
+	public String confirmGame(@PathVariable String eventId,
+							  @PathVariable String gameId) {
+		Game game = eachEventService.getGameById(Integer.parseInt(gameId));
+		game.setConfirm(true);
+		eachEventService.updateGame(game);
+		return REDIRECT_EVENT_INFO_PAGE_BASE + Integer.valueOf(eventId);
+	}
+
+	@RequestMapping(value = "/eventInfo/{eventId}/addGame", method = RequestMethod.POST)
+	public String addSingleGame(@PathVariable String eventId,
+								@ModelAttribute("singleGameForm") SingleGameForm form,
+								RedirectAttributes model) {
+		Event event = eachEventService.getEventById(Integer.parseInt(eventId));
+
+		if (event == null) {
+			return NOT_FOUND;
+		}
+
+		Game gameToPersist = eachEventService.createAndFillNewSingleGame(form, event);
+		eachEventService.persistNewSingleGame(gameToPersist);
+		model.addFlashAttribute("gameCreateInfo", GAME_CREATED);
+		return REDIRECT_EVENT_INFO_PAGE_BASE + Integer.valueOf(eventId);
+	}
+
+	@RequestMapping(value = "/eventInfo/{eventId}/addMark", method = RequestMethod.POST)
+	public String addMarkToTeamSport(@PathVariable String eventId,
+									 @ModelAttribute("teamGameForm") TeamGameForm form,
+									 RedirectAttributes model) {
+
+		Event event = eachEventService.getEventById(Integer.parseInt(eventId));
+		Mark mark = eachEventService.createAndFillNewMark(form, event);
+		String evaluativeUser = form.getParticipant();
+		Integer idOfEvent = Integer.parseInt(eventId);
+
+		if (!eachEventService.isUserEvaluatedByLoggedInUser(evaluativeUser, idOfEvent)) {
+			eachEventService.persitNewMark(mark);
+			model.addAttribute("markInfo", MARK_ADDED_INFO);
+		} else {
+			model.addAttribute("markInfo", USER_IS_EVALUATED_INFO);
+		}
+		return REDIRECT_EVENT_INFO_PAGE_BASE + Integer.parseInt(eventId);
+	}
 }

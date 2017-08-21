@@ -25,7 +25,7 @@ public class Mark implements Serializable {
 	
 	@JoinColumn(name="EVALUATIVE_USER_ID")
 	@ManyToOne(fetch=FetchType.LAZY)
-	private PortalUser evalutiveUser;
+	private PortalUser evaluativeUser;
 	
 	@JoinColumn(name="EVALUATED_USER_ID")
 	@ManyToOne(fetch=FetchType.LAZY)
@@ -46,12 +46,12 @@ public class Mark implements Serializable {
 		this.id = id;
 	}
 
-	public PortalUser getEvalutiveUser() {
-		return evalutiveUser;
+	public PortalUser getEvaluativeUser() {
+		return evaluativeUser;
 	}
 
-	public void setEvalutiveUser(PortalUser evalutiveUser) {
-		this.evalutiveUser = evalutiveUser;
+	public void setEvaluativeUser(PortalUser evaluativeUser) {
+		this.evaluativeUser = evaluativeUser;
 	}
 
 	public PortalUser getEvaluatedUser() {

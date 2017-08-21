@@ -58,7 +58,7 @@ public class PortalUser implements Serializable {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "evaluatedUser", cascade = CascadeType.ALL)
     private List<Mark> evaluatedMarks = new LinkedList<>();
     
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "evalutiveUser", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "evaluativeUser", cascade = CascadeType.ALL)
     private List<Mark> evaluativeMarks = new LinkedList<>();
     
     @ManyToOne(fetch = FetchType.LAZY)
