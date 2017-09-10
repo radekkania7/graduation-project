@@ -10,6 +10,7 @@ import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
@@ -114,7 +115,7 @@ public class EventDaoImpl extends BaseDao<Integer, Event> implements EventDao {
 		Criteria criteria = getEntityCriteria();
 
 		criteria.createAlias("eventUsers", "user");
-		criteria.createAlias("eventStatus", "status");
+		criteria.createAlias("status", "status");
 
 		criteria.add(Restrictions.eq("status.type", statusType));
 		criteria.add(Restrictions.eq("user.nickname", username));

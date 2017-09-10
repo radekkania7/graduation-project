@@ -2,6 +2,8 @@ package lodz.uni.portal.service;
 
 import java.util.List;
 
+import lodz.uni.portal.dao.EventDao;
+import lodz.uni.portal.model.Event;
 import org.apache.log4j.Logger;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,9 @@ public class UserService {
 	
 	@Autowired
 	private PortalUserDao userDao;
+
+	@Autowired
+	private EventDao eventDao;
 	
 	public PortalUser findByUsername(String username) {
 		PortalUser user = userDao.findByUsername(username);
@@ -51,5 +56,9 @@ public class UserService {
 
 	public List<PortalUser> findAllActiveUsers(String ascOrderColumnName) {
 		return userDao.findAllUsers(ascOrderColumnName);
+	}
+
+	public List<Event> getEventsByStatusForUser(String nickname, String statusType, Integer limit) {
+		return eventDao.getEventsByStatusAndLimit(nickname, statusType, limit);
 	}
 }
