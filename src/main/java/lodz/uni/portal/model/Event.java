@@ -32,6 +32,9 @@ public class Event implements Serializable {
 	@Column(name="STOP_TIME")
 	private Time stopTime;
 
+	@Column(name="ADDRESS")
+	private String address;
+
 	@NotNull
 	@Column(name="PLAYERS_LIMIT")
 	private Integer playersLimit;
@@ -167,6 +170,14 @@ public class Event implements Serializable {
 
 	public void setEventGames(List<Game> eventGames) {
 		this.eventGames = eventGames;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	@Override

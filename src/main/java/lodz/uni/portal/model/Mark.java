@@ -24,11 +24,11 @@ public class Mark implements Serializable {
 	private Integer id;
 	
 	@JoinColumn(name="EVALUATIVE_USER_ID")
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	private PortalUser evaluativeUser;
 	
 	@JoinColumn(name="EVALUATED_USER_ID")
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	private PortalUser evaluatedUser;
 	
 	@Column(name="VALUE")

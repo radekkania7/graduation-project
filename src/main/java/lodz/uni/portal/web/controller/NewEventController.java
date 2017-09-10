@@ -21,7 +21,6 @@ public class NewEventController {
 	private static final String NEW_EVENT_PAGE = "newEvent";
 	private static final String REDIRECT_EVENT_INFO_PAGE_BASE = "redirect:/eventInfo/";
 
-	private Model model;
 	private BindingResult result;
 	private EventForm eventForm;
 
@@ -30,10 +29,9 @@ public class NewEventController {
 
 	@RequestMapping(value = { "/createNewEvent" }, method = RequestMethod.GET)
 	public String showFormForNewEvent(Model model) {
-		this.model = model;
 
 		model.addAttribute("eventForm", new EventForm());
-		addSportNamesListToModel();
+		model.addAttribute("sportNames", newEventService.getSportNames());
 		return NEW_EVENT_PAGE;
 	}
 
@@ -41,15 +39,14 @@ public class NewEventController {
 	public String processForm(@Valid @ModelAttribute("eventForm") EventForm form,
 							   BindingResult result,
 							   RedirectAttributes model) {
-		this.model = model;
 		this.result = result;
 		this.eventForm = form;
 
-		validateOtherFiled();
 		if (this.result.hasErrors()) {
-			addSportNamesListToModel();
-			return NEW_EVENT_PAGE;
+			model.addFlashAttribute("sportNames", newEventService.getSportNames());
+			return "redirect:/createNewEvent";
 		}
+		//validateOtherFiled();
 
 		Event event = getFilledEvent();
 		persistNewEvent(event);
@@ -68,9 +65,4 @@ public class NewEventController {
 	private Event getFilledEvent() {
 		return newEventService.createAndFillNewEvent(eventForm);
 	}
-
-	private void addSportNamesListToModel() {
-		model.addAttribute("sportNames", newEventService.getSportNames());
-	}
-
 }

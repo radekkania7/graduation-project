@@ -11,7 +11,7 @@ public class CustomDateUtils {
 
     public static boolean isDateBeforeToday(Date date) {
         Date today = new Date(Calendar.getInstance().getTime().getTime());
-        return date.before(today);
+        return today.after(date);
     }
 
     public static boolean isDateAfterToday(Date date) {

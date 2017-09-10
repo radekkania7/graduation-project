@@ -107,6 +107,7 @@ public class NewEventServiceImpl implements NewEventService {
         event.setStartTime(timeStart);
         event.setStopTime(timeEnd);
         event.setUserCreator(userCreator);
+        event.setAddress(form.getAddress());
         return event;
     }
 

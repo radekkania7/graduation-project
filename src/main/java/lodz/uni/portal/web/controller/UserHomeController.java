@@ -13,7 +13,9 @@ public class UserHomeController {
 
     @RequestMapping(value = { "/homepage" }, method= RequestMethod.GET)
     public String home(Model model) {
-        model.addAttribute("message", "hello, it is working");
+
         return HOME_PAGE;
     }
+
+
 }

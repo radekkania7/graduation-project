@@ -53,6 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/").access("hasRole('ADMIN') or hasRole('USER')")
 				.antMatchers("/panelAdmin").access("hasRole('ADMIN')")
 				.antMatchers("/homepage").access("hasRole('USER')")
+				.antMatchers("/eventInfo/{eventId}").access("hasRole('USER')")
 				.and().formLogin().defaultSuccessUrl("/")
 				.and().csrf().disable();
 	}

@@ -5,10 +5,12 @@
 <%@ taglib prefix="C" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <c:if test="${event ne null}" >
-    ${event.description} <br/>
-    Data: ${event.eventDate} <br/>
-    od: ${event.startTime} <br/>
-    do ${event.stopTime} <br/>
+    <div>Opis:${event.description}</div>
+    <div>Adres: ${event.address}</div>
+    <div>Data: ${event.eventDate}</div>
+    <div>od: ${event.startTime}</div>
+    <div>do: ${event.stopTime}</div>
+    <div>sport: ${sportName}</div>
 </c:if>
 
 <c:if test="${status eq 'CREATED'}" >
@@ -16,8 +18,7 @@
 </c:if>
 
 <c:if test="${status eq 'DURING'}" >
-    WYDARZENIE JEST W TRAKCIE,
-    ZAPRASZAMY DO OBSERWOWANIA
+    <%@ include file="/WEB-INF/view/event/eventinfo/duringEvent.jsp"%>
 </c:if>
 
 <c:if test="${status eq 'AFTER'}" >
@@ -26,9 +27,6 @@
 
 <c:if test="${status eq 'CLOSED'}" >
     <%@ include file="/WEB-INF/view/event/eventinfo/closedEvent.jsp" %>
-    -> wyswietlone dane
-        -> jesli team Game -> oceny przeciwnika, malejaco.
-        -> jesli single Game -> wyniki meczow
 </c:if>
 
 

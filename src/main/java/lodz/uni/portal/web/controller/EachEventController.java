@@ -3,6 +3,7 @@ package lodz.uni.portal.web.controller;
 import lodz.uni.portal.form.SingleGameForm;
 import lodz.uni.portal.form.TeamGameForm;
 import lodz.uni.portal.model.*;
+import lodz.uni.portal.model.type.EventStatusType;
 import lodz.uni.portal.service.EachEventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 public class EachEventController {
@@ -35,8 +37,35 @@ public class EachEventController {
 		Event event = eachEventService.getEventById(Integer.parseInt(eventId));
 		this.globalEvent = event;
 
-		prepareAttributeForAfterEvent(model);
-		prepareButtonValue(model);
+		if (eachEventService.getLoggedInUser() == null) {
+			return "login";
+		}
+
+		if (event == null) {
+			return NOT_FOUND;
+		}
+
+		String eventStatus = globalEvent.getStatus().getType();
+		model.addAttribute("loggedInUser", eachEventService.getLoggedInUser().getNickname());
+
+		if (EventStatusType.CREATED.getType().equals(eventStatus)) {
+			model.addAttribute("participants", globalEvent.getEventUsers());
+			prepareButtonValue(model);
+		}
+
+		if (EventStatusType.DURING.getType().equals(eventStatus)) {
+			model.addAttribute("isParticipate", eachEventService.isUserParticipate(globalEvent));
+			model.addAttribute("participantsNames", eachEventService.getParticipantsNamesWithoutLoggedInUser(globalEvent));
+		}
+
+		if (EventStatusType.AFTER.getType().equals(eventStatus)) {
+			prepareAttributeForAfterEvent(model);
+		}
+
+		if (EventStatusType.CLOSED.getType().equals(eventStatus)) {
+			prepareAttributeForAfterEvent(model);
+		}
+
 		prepareOtherAttributes(model);
 		return EVENT_PAGE;
 	}
@@ -44,10 +73,13 @@ public class EachEventController {
 	private void prepareAttributeForAfterEvent(Model model) {
 		if (globalEvent.getEventSport().isTeamSport()) {
 			model.addAttribute("teamGameForm", new TeamGameForm());
+			model.addAttribute("userWithMarksAvg", eachEventService.getMapUsersAvgByEvents(globalEvent));
+			model.addAttribute("loggedInUserAvg", eachEventService.getLoggedInUserAvgByEvent(globalEvent));
 		} else {
 			model.addAttribute("singleGameForm", new SingleGameForm());
 		}
 		model.addAttribute("participantsNames", eachEventService.getParticipantsNamesWithoutLoggedInUser(globalEvent));
+		model.addAttribute("isParticipate", eachEventService.isUserParticipate(globalEvent));
 	}
 
 	private void prepareButtonValue(Model model) {
@@ -64,6 +96,7 @@ public class EachEventController {
 		model.addAttribute("status", globalEvent.getStatus().getType());
 		model.addAttribute("isParticipant", eachEventService.isUserParticipate(globalEvent));
 		model.addAttribute("loggedInUserName", eachEventService.getLoggedInUser().getNickname());
+		model.addAttribute("sportName", globalEvent.getEventSport().getName());
 	}
 
 	@RequestMapping(value =  "/eventInfo/{eventId}/join" , method = RequestMethod.POST)
@@ -74,15 +107,14 @@ public class EachEventController {
 			return NOT_FOUND;
 		}
 
-		if (!eachEventService.isFreePlace(event)) {
-			model.addFlashAttribute("joinInfo", NO_PLACES);
-			return REDIRECT_EVENT_INFO_PAGE_BASE + Integer.valueOf(eventId);
-		}
-
 		if (eachEventService.isUserParticipate(event)){
 			eachEventService.removeUserFromEvenParticipants(event);
 			model.addFlashAttribute("joinInfo", LEAVED);
 		} else {
+			if (!eachEventService.isFreePlace(event)) {
+				model.addFlashAttribute("joinInfo", NO_PLACES);
+				return REDIRECT_EVENT_INFO_PAGE_BASE + Integer.valueOf(eventId);
+			}
 			eachEventService.addUserIntoEventParticipants(event);
 			model.addFlashAttribute("joinInfo", JOINED);
 		}
@@ -128,9 +160,9 @@ public class EachEventController {
 
 		if (!eachEventService.isUserEvaluatedByLoggedInUser(evaluativeUser, idOfEvent)) {
 			eachEventService.persitNewMark(mark);
-			model.addAttribute("markInfo", MARK_ADDED_INFO);
+			model.addFlashAttribute("markInfo", MARK_ADDED_INFO);
 		} else {
-			model.addAttribute("markInfo", USER_IS_EVALUATED_INFO);
+			model.addFlashAttribute("markInfo", USER_IS_EVALUATED_INFO);
 		}
 		return REDIRECT_EVENT_INFO_PAGE_BASE + Integer.parseInt(eventId);
 	}

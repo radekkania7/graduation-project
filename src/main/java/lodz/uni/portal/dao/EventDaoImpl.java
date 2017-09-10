@@ -110,5 +110,21 @@ public class EventDaoImpl extends BaseDao<Integer, Event> implements EventDao {
 		return (List<Event>) criteria.list();
 	}
 
+	public List<Event> getEventsByStatusAndLimit(String username, String statusType, Integer limit) {
+		Criteria criteria = getEntityCriteria();
 
+		criteria.createAlias("eventUsers", "user");
+		criteria.createAlias("eventStatus", "status");
+
+		criteria.add(Restrictions.eq("status.type", statusType));
+		criteria.add(Restrictions.eq("user.nickname", username));
+
+		if (limit != null) {
+			criteria.setMaxResults(limit);
+		}
+
+		criteria.addOrder(Order.asc("eventDate"));
+
+		return (List<Event>) criteria.list();
+	}
 }

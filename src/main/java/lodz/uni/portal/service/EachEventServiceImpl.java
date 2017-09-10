@@ -14,8 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 
 @Service("eachEventService")
@@ -76,14 +78,13 @@ public class EachEventServiceImpl implements EachEventService {
         loggedInUser.getUserEvents().remove(event);
         eventDao.updateEvent(event);
         portalUserDao.updateUser(loggedInUser);
+
     }
 
     @Override
     public void removeUserFromEvenParticipants(Event event) {
         PortalUser loggedInUser = getLoggedInUser();
-        event.getEventUsers().remove(loggedInUser);
         loggedInUser.getUserEvents().remove(event);
-        eventDao.updateEvent(event);
         portalUserDao.updateUser(loggedInUser);
     }
 
@@ -161,4 +162,33 @@ public class EachEventServiceImpl implements EachEventService {
         }
         return false;
     }
+
+    private Double getMarkAvgForUserFromEvent(String username, Integer eventId) {
+        List<Mark> userMarks = markDao.getMarksByEvaluatedUserAndEvent(username, eventId);
+        double markSum = 0;
+        Double avg = null;
+        if (userMarks != null && userMarks.size() > 0) {
+            double markCount = userMarks.size();
+            for (Mark mark : userMarks) {
+                markSum += mark.getValue();
+            }
+            avg = markSum/markCount;
+        }
+        return avg;
+    }
+
+    public Map<String, Double> getMapUsersAvgByEvents(Event event) {
+        List<PortalUser> users = event.getEventUsers();
+        Map<String, Double> usersWithAvg = new HashMap<>();
+        for (PortalUser user : users) {
+            Double avg = getMarkAvgForUserFromEvent(user.getNickname(), event.getId());
+            usersWithAvg.put(user.getNickname(), avg);
+        }
+        return usersWithAvg;
+    }
+
+    public Double getLoggedInUserAvgByEvent(Event event) {
+        return getMarkAvgForUserFromEvent(getLoggedInUser().getNickname(), event.getId());
+    }
+
 }

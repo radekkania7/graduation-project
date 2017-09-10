@@ -1,6 +1,7 @@
 package lodz.uni.portal.dao;
 
 
+import com.sun.org.apache.regexp.internal.RE;
 import org.hibernate.Criteria;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
@@ -20,20 +21,28 @@ public class MarkDaoImpl extends BaseDao<Integer, Mark> implements MarkDao {
 
 	@Override
 	public List<Mark> getMarkByParams(String evaluativeUsername, String evaluatedUsername, Integer eventId) {
-		Criteria criteria = getSession().createCriteria(Mark.class, "mark");
+		Criteria criteria = getEntityCriteria();
 
-		criteria.createAlias("mark.evaluativeUser.nickname", "evaluativeUser");
-		criteria.createAlias("mark.evaluatedUser.nickname", "evaluatedUser");
-		criteria.createAlias("mark.event.id", "eventId");
+		criteria.createAlias("evaluativeUser", "user1Als");
+		criteria.createAlias("evaluatedUser", "user2Als");
+		criteria.createAlias("event", "eventAls");
 
-		Criterion evaluativeCriterion = Restrictions.eq("evaluativeUser", evaluatedUsername);
-		Criterion evaluatedCriterion = Restrictions.eq("evaluatedUser", evaluatedUsername);
-		Criterion eventCriterion = Restrictions.eq("eventId", eventId);
+		criteria.add(Restrictions.eq("user1Als.nickname", evaluativeUsername));
+		criteria.add(Restrictions.eq("user2Als.nickname", evaluatedUsername));
+		criteria.add(Restrictions.eq("eventAls.id", eventId));
 
-		Criterion subExpression = Restrictions.and(evaluatedCriterion, evaluativeCriterion);
-		Criterion finalExpression = Restrictions.and(subExpression, eventCriterion);
+		return (List<Mark>) criteria.list();
+	}
 
-		criteria.add(finalExpression);
+	public List<Mark> getMarksByEvaluatedUserAndEvent(String evaluatedUser, Integer eventId) {
+		Criteria criteria = getEntityCriteria();
+
+		criteria.createAlias("evaluatedUser", "userAls");
+		criteria.createAlias("event", "eventAls");
+
+		criteria.add(Restrictions.eq("userAls.nickname", evaluatedUser));
+		criteria.add(Restrictions.eq("eventAls.id", eventId));
+
 		return (List<Mark>) criteria.list();
 	}
 }

@@ -8,6 +8,7 @@ import lodz.uni.portal.model.Mark;
 import lodz.uni.portal.model.PortalUser;
 
 import java.util.List;
+import java.util.Map;
 
 public interface EachEventService {
     Event getEventById(Integer id);
@@ -37,4 +38,8 @@ public interface EachEventService {
     Mark createAndFillNewMark(TeamGameForm form, Event event);
 
     boolean isUserEvaluatedByLoggedInUser(String thatUsername, Integer eventId);
+
+    Map<String, Double> getMapUsersAvgByEvents(Event event);
+
+    Double getLoggedInUserAvgByEvent(Event event);
 }

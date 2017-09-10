@@ -23,4 +23,6 @@ public interface EventDao {
 	//nowe API
 
 	List<Event> getByParams(FindEventForm form);
+
+	List<Event> getEventsByStatusAndLimit(String username, String statusType, Integer limit);
 }
