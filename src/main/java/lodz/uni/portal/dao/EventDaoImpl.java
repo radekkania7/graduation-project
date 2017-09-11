@@ -8,6 +8,8 @@ import com.sun.org.apache.regexp.internal.RE;
 import lodz.uni.portal.form.FindEventForm;
 import org.hibernate.Criteria;
 import org.hibernate.Hibernate;
+import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
@@ -120,12 +122,8 @@ public class EventDaoImpl extends BaseDao<Integer, Event> implements EventDao {
 		criteria.add(Restrictions.eq("status.type", statusType));
 		criteria.add(Restrictions.eq("user.nickname", username));
 
-		if (limit != null) {
-			criteria.setMaxResults(limit);
-		}
-
 		criteria.addOrder(Order.asc("eventDate"));
-
 		return (List<Event>) criteria.list();
 	}
+
 }

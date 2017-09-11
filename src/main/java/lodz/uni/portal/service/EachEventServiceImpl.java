@@ -78,7 +78,6 @@ public class EachEventServiceImpl implements EachEventService {
         loggedInUser.getUserEvents().remove(event);
         eventDao.updateEvent(event);
         portalUserDao.updateUser(loggedInUser);
-
     }
 
     @Override
@@ -96,8 +95,8 @@ public class EachEventServiceImpl implements EachEventService {
 
         game.setEvent(event);
         game.setHostUser(hostUser);
-        game.setHostResult(form.getLoggedInUserResult());
-        game.setGuestResult(form.getOpponentResult());
+        game.setHostResult(Integer.parseInt(form.getLoggedInUserResult()));
+        game.setGuestResult(Integer.parseInt(form.getOpponentResult()));
         game.setGuestUser(opponetUser);
         game.setDesc(form.getDescription());
         game.setConfirm(false);
@@ -191,5 +190,25 @@ public class EachEventServiceImpl implements EachEventService {
         return getMarkAvgForUserFromEvent(getLoggedInUser().getNickname(), event.getId());
     }
 
+    public boolean validateSingleGameForm(SingleGameForm form) {
+        Integer result1 = null;
+        Integer result2 = null;
+        try {
+            result1 = Integer.parseInt(form.getLoggedInUserResult());
+            result2 = Integer.parseInt(form.getOpponentResult());
+        } catch (Exception e) {
+            return false;
+        }
 
+        if (result1 == null) {
+            return false;
+        }
+        if (result2 == null) {
+            return false;
+        }
+        if ("".equals(form.getDescription()) || form.getDescription() == null) {
+            return false;
+        }
+        return true;
+    }
 }

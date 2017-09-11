@@ -21,9 +21,12 @@
             <div class="ticket">Od godziny: ${event.startTime} do: ${event.stopTime}</div>
         </div>
     </div>
-    <div class="well col-sm-12 leave">
-            WOLNE MIEJSCA: ${freePlaces}
-    </div>
+
+    <c:if test="${status eq 'CREATED'}">
+        <div class="well col-sm-12 leave">
+                WOLNE MIEJSCA: ${freePlaces}
+        </div>
+    </c:if>
 </c:if>
 </div>
 

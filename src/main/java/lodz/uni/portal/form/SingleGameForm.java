@@ -5,13 +5,10 @@ import javax.validation.constraints.Size;
 public class SingleGameForm {
     private String opponentName;
 
-    @Size(min = 1)
-    private Integer loggedInUserResult;
+    private String loggedInUserResult;
 
-    @Size(min = 1)
-    private Integer opponentResult;
+    private String opponentResult;
 
-    @Size(min = 1, max = 250)
     private String description;
 
     public String getOpponentName() {
@@ -22,19 +19,19 @@ public class SingleGameForm {
         this.opponentName = opponentName;
     }
 
-    public Integer getLoggedInUserResult() {
+    public String getLoggedInUserResult() {
         return loggedInUserResult;
     }
 
-    public void setLoggedInUserResult(Integer loggedInUserResult) {
+    public void setLoggedInUserResult(String loggedInUserResult) {
         this.loggedInUserResult = loggedInUserResult;
     }
 
-    public Integer getOpponentResult() {
+    public String getOpponentResult() {
         return opponentResult;
     }
 
-    public void setOpponentResult(Integer opponentResult) {
+    public void setOpponentResult(String opponentResult) {
         this.opponentResult = opponentResult;
     }
 

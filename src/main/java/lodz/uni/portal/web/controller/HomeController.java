@@ -21,6 +21,7 @@ public class HomeController {
 	private static final String REDIRECT_ADMIN_PAGE = "redirect:/panelAdmin";
 	private static final String REDIRECT_USER_PAGE = "redirect:/homepage";
 	private static final String FORBIDDEN = "brakDostepu";
+	private static final String USER_PAGE = "user";
 
 	private static final String ADMIN = UserProfileType.ADMIN.getType();
 	private static final String USER = UserProfileType.USER.getType();
@@ -54,4 +55,5 @@ public class HomeController {
 		UserProfile userProfile = user.getUserProfiles().get(0);
 		return userProfile.getType();
 	}
+
 }

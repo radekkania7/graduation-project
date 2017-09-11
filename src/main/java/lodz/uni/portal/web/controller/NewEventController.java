@@ -2,6 +2,7 @@ package lodz.uni.portal.web.controller;
 
 import lodz.uni.portal.form.EventForm;
 import lodz.uni.portal.model.Event;
+import lodz.uni.portal.service.EachEventService;
 import lodz.uni.portal.service.NewEventService;
 import lodz.uni.portal.service.NewEventServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +28,15 @@ public class NewEventController {
 	@Autowired
 	NewEventService newEventService;
 
+	@Autowired
+	EachEventService eachEventService;
+
 	@RequestMapping(value = { "/createNewEvent" }, method = RequestMethod.GET)
 	public String showFormForNewEvent(Model model) {
 
 		model.addAttribute("eventForm", new EventForm());
 		model.addAttribute("sportNames", newEventService.getSportNames());
+		model.addAttribute("loggedInUserName", eachEventService.getLoggedInUser().getNickname());
 		return NEW_EVENT_PAGE;
 	}
 
@@ -44,6 +49,7 @@ public class NewEventController {
 
 		if (this.result.hasErrors()) {
 			model.addAttribute("sportNames", newEventService.getSportNames());
+			model.addAttribute("loggedInUserName", eachEventService.getLoggedInUser().getNickname());
 			return NEW_EVENT_PAGE;
 		}
 		//validateOtherFiled();

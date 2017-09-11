@@ -4,6 +4,7 @@ package lodz.uni.portal.web.controller;
 
 import lodz.uni.portal.form.FindEventForm;
 import lodz.uni.portal.model.Event;
+import lodz.uni.portal.service.EachEventService;
 import lodz.uni.portal.service.EventsService;
 import lodz.uni.portal.service.NewEventService;
 import org.apache.log4j.Logger;
@@ -34,10 +35,14 @@ public class EventsController {
 	@Autowired
 	EventsService eventsService;
 
+	@Autowired
+	EachEventService eachEventService;
+
 	@RequestMapping(method = RequestMethod.GET)
 	public String getEventList(Model model) {
 		model.addAttribute("sportNames", newEventService.getSportNames());
 		model.addAttribute("findEventForm", new FindEventForm());
+		model.addAttribute("loggedInUserName", eachEventService.getLoggedInUser().getNickname());
 		return EVENTS_LIST; 
 	}
 	
@@ -48,6 +53,7 @@ public class EventsController {
 
 		if (result.hasErrors()) {
 			model.addAttribute("sportNames", newEventService.getSportNames());
+			model.addAttribute("loggedInUserName", eachEventService.getLoggedInUser().getNickname());
 			return EVENTS_LIST;
 		}
 
@@ -56,6 +62,7 @@ public class EventsController {
 			model.addAttribute("foundedEvents", foundedEvents);
 		}
 
+		model.addAttribute("loggedInUserName", eachEventService.getLoggedInUser().getNickname());
 		model.addAttribute("sportNames", newEventService.getSportNames());
 		return EVENTS_LIST;
 	}

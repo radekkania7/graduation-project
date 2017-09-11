@@ -27,20 +27,25 @@
                 </tr>
                 </thead>
                 <tbody>
-                    <tr>
                         <c:set var="counter" value="1"/>
                         <c:forEach items="${participants}" var="user">
+                        <tr>
                             <th> ${counter}</th>
                             <th> ${user.nickname} </th>
-                            <th> </th>
+                            <th>
+                                <c:set var="url" value="/user/${user.nickname}" />
+                                <c:if test="${user.nickname eq loggedInUser}" >
+                                    <c:set var="url" value="/homepage" />
+                                </c:if>
+                                <a href="<c:url value='${url}' />">Link do profilu</a>
+                            </th>
                             <c:set var="counter" value="${counter += 1}" />
+                        </tr>
                         </c:forEach>
-                    </tr>
                 </tbody>
             </table>
         </div>
     </c:if>
-
 
 
     <c:url var="action" value="/eventInfo/${event.id}/join" />

@@ -44,4 +44,6 @@ public interface EachEventService {
     Double getLoggedInUserAvgByEvent(Event event);
 
     int getFreePlaces(Event event);
+
+    boolean validateSingleGameForm(SingleGameForm form);
 }

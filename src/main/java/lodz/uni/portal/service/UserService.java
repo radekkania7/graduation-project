@@ -61,4 +61,8 @@ public class UserService {
 	public List<Event> getEventsByStatusForUser(String nickname, String statusType, Integer limit) {
 		return eventDao.getEventsByStatusAndLimit(nickname, statusType, limit);
 	}
+
+	public int getUserEventsCount(PortalUser user) {
+		return user.getUserEvents().size();
+	}
 }

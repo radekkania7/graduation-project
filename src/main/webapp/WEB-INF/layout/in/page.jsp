@@ -25,27 +25,37 @@
 
 		<div class="container text-center">
 			<div class="row">
-				<div class="col-sm-3 well">
-					<div class="well ">
-						<img class="img-circle" src="<c:url value="/resources/anno.jpg" />" alt="avatar" height="65" width="65"/>
-					</div>
+				<div class="col-sm-3 well ticket-2">
+
+					<c:choose>
+						<c:when test="${userProfile ne null && userProfile ne ''}" >
+							<div class="well ticket-2">
+								<img class="img-circle" src="<c:url value="/resources/otheruser.png" />" alt="avatar" height="65" width="65"/>
+							</div>
+						</c:when>
+						<c:otherwise>
+							<div class="well ticket-2">
+								<img class="img-circle" src="<c:url value="/resources/anno.jpg" />" alt="avatar" height="65" width="65"/>
+							</div>
+						</c:otherwise>
+					</c:choose>
+
 					<div>
-						${loggedInUser}
+						<c:choose>
+						<c:when test="${userProfile ne null && userProfile ne ''}" >
+							${userProfile}
+						</c:when>
+						<c:otherwise>
+							${loggedInUserName}
+						</c:otherwise>
+					</c:choose>
 					</div>
 				</div>
-				<div class="col-sm-7">
+				<div class="col-sm-9">
 					<div id="content" class="col-sm-12">
 						<div class="col-sm-12">
 								<t:insertAttribute name="body" />
 						</div>
-					</div>
-				</div>
-				<div class="col-sm-2 well">
-					<div class="well">
-					</div>
-					<div class="well">
-					</div>
-					<div class="well">
 					</div>
 				</div>
 			</div>

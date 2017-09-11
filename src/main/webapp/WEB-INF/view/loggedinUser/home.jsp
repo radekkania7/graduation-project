@@ -8,9 +8,11 @@
                 <div id="incoming" class="well">
                     <div> NADCHODZACE WYDARZENIA </div>
                     <c:forEach items="${incomingEvents}" var="event">
-                        <div>${event.description} ${event.eventDate} ${event.startTime}
-                            <c:url var="link" value="/eventInfo/${event.id}" />
-                            <a href="${link}">pokaz wydarzenie</a>
+                        <div class="ticket">
+                                <span>${event.eventDate}</span>
+                                <span>${event.startTime}</span>
+                                <c:url var="link" value="/eventInfo/${event.id}" />
+                                <span><a href="${link}">pokaz wydarzenie</a></span>
                         </div>
                     </c:forEach>
                 </div>
@@ -19,9 +21,11 @@
                 <c:if test="${fn:length(duringEvents) > 0}" >
                     <div> W TRAKCIE </div>
                     <c:forEach items="${duringEvents}" var="event">
-                        <div>${event.description} ${event.eventDate} ${event.startTime}
+                        <div class="ticket">
+                            <span>${event.eventDate}</span>
+                            <span>${event.startTime}</span>
                             <c:url var="link" value="/eventInfo/${event.id}" />
-                            <a href="${link}" >pokaz wydarzenie</a>
+                            <span><a href="${link}">pokaz wydarzenie</a></span>
                         </div>
                     </c:forEach>
                 </c:if>
@@ -30,9 +34,11 @@
                 <c:if test="${fn:length(eventsToEvaluate) > 0}" >
                     <div> OCEN PRZECIWNIKOW </div>
                     <c:forEach items="${eventsToEvaluate}" var="event">
-                        <div>${event.description} ${event.eventDate} ${event.startTime}
+                        <div class="ticket">
+                            <span>${event.eventDate}</span>
+                            <span>${event.startTime}</span>
                             <c:url var="link" value="/eventInfo/${event.id}" />
-                            <a href="${link}" >pokaz wydarzenie</a>
+                            <span><a href="${link}">pokaz wydarzenie</a></span>
                         </div>
                     </c:forEach>
                 </c:if>
@@ -41,9 +47,11 @@
                 <c:if test="${fn:length(eventsToEvaluate) > 0}" >
                     <div> HISTORIA </div>
                     <c:forEach items="${historyEvents}" var="event">
-                        <div>${event.description} ${event.eventDate} ${event.startTime}
+                        <div class="ticket">
+                            <span>${event.eventDate}</span>
+                            <span>${event.startTime}</span>
                             <c:url var="link" value="/eventInfo/${event.id}" />
-                            <a href="${link}" >pokaz wydarzenie</a>
+                            <span><a href="${link}">pokaz wydarzenie</a></span>
                         </div>
                     </c:forEach>
                 </c:if>

@@ -8,22 +8,22 @@ import lodz.uni.portal.service.EachEventService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 public class EachEventController {
 	private static final String EVENT_PAGE = "event";
 	private static final String REDIRECT_EVENT_INFO_PAGE_BASE = "redirect:/eventInfo/";
 	private static final String NOT_FOUND = "notFound";
+	private static final String VALIDATION_FAIL = "Wszystkie pola musza byc wypelnione \n poprawnymi danymi";
 
 	private static final String NO_PLACES = "Wszytkie miejsca sa zajete";
 	private static final String LEAVED = "Opusciles wydarzenie";
 	private static final String JOINED = "Dolaczyles do wyadarzenia";
-	private static final String GAME_CREATED = "Dodano nową rozgrywkę";
+	private static final String GAME_CREATED = "Dodano wynik";
 	private static final String MARK_ADDED_INFO = "Dodano ocenę";
 	private static final String USER_IS_EVALUATED_INFO = "Ten uzytkownik zostal juz przez Ciebie\n oceniony w ramach tego wydarzenia.\n Ocen pozostalych!";
 
@@ -46,7 +46,7 @@ public class EachEventController {
 		}
 
 		String eventStatus = globalEvent.getStatus().getType();
-		model.addAttribute("loggedInUser", eachEventService.getLoggedInUser().getNickname());
+		model.addAttribute("loggedInUserName", eachEventService.getLoggedInUser().getNickname());
 
 		if (EventStatusType.CREATED.getType().equals(eventStatus)) {
 			model.addAttribute("participants", globalEvent.getEventUsers());
@@ -67,6 +67,7 @@ public class EachEventController {
 			prepareAttributeForAfterEvent(model);
 		}
 
+		model.addAttribute("status", eventStatus);
 		prepareOtherAttributes(model);
 		return EVENT_PAGE;
 	}
@@ -144,6 +145,11 @@ public class EachEventController {
 			return NOT_FOUND;
 		}
 
+		if (!eachEventService.validateSingleGameForm(form)) {
+			model.addFlashAttribute("validationFail", VALIDATION_FAIL);
+			return REDIRECT_EVENT_INFO_PAGE_BASE + Integer.valueOf(eventId);
+		}
+
 		Game gameToPersist = eachEventService.createAndFillNewSingleGame(form, event);
 		eachEventService.persistNewSingleGame(gameToPersist);
 		model.addFlashAttribute("gameCreateInfo", GAME_CREATED);
@@ -153,6 +159,7 @@ public class EachEventController {
 	@RequestMapping(value = "/eventInfo/{eventId}/addMark", method = RequestMethod.POST)
 	public String addMarkToTeamSport(@PathVariable String eventId,
 									 @ModelAttribute("teamGameForm") TeamGameForm form,
+									 BindingResult result,
 									 RedirectAttributes model) {
 
 		Event event = eachEventService.getEventById(Integer.parseInt(eventId));
@@ -162,9 +169,9 @@ public class EachEventController {
 
 		if (!eachEventService.isUserEvaluatedByLoggedInUser(evaluativeUser, idOfEvent)) {
 			eachEventService.persitNewMark(mark);
-			model.addFlashAttribute("markInfo", MARK_ADDED_INFO);
+			model.addFlashAttribute("markInfoSuccess", MARK_ADDED_INFO);
 		} else {
-			model.addFlashAttribute("markInfo", USER_IS_EVALUATED_INFO);
+			model.addFlashAttribute("markInfoFail", USER_IS_EVALUATED_INFO);
 		}
 		return REDIRECT_EVENT_INFO_PAGE_BASE + Integer.parseInt(eventId);
 	}
