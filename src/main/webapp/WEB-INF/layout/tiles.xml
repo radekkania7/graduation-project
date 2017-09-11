@@ -13,6 +13,9 @@
 	<definition name="registerform" extends="out-of-login">
 		<put-attribute name="body" value="/WEB-INF/view/register/registerform.jsp" />
 	</definition>
+	<definition name="login" extends="out-of-login">
+		<put-attribute name="body" value="/WEB-INF/view/login.jsp" />
+	</definition>
 	<definition name="registersuccess" extends="out-of-login">
 		<put-attribute name="body" value="/WEB-INF/view/register/registersuccess.jsp" />
 	</definition>

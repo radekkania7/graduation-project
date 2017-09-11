@@ -1,11 +1,15 @@
 package lodz.uni.portal.web.controller;
 
+import lodz.uni.portal.form.LoginForm;
 import lodz.uni.portal.model.PortalUser;
 import lodz.uni.portal.model.type.EventStatusType;
 import lodz.uni.portal.service.LoggedInUserService;
 import lodz.uni.portal.service.UserService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationTrustResolver;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -62,5 +66,13 @@ public class UserHomeController {
         return HOME_PAGE;
     }
 
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String loginPage() {
+        return null;
+    }
+
+    private Authentication getAuthentication() {
+        return  SecurityContextHolder.getContext().getAuthentication();
+    }
 
 }

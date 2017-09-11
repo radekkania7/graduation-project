@@ -32,7 +32,15 @@
             </div>
             <div id="toEvaluate" class="well events">
                 <c:if test="${fn:length(eventsToEvaluate) > 0}" >
-                    <div> OCEN PRZECIWNIKOW </div>
+
+                    <c:if test="${userProfile != null}" >
+                        <div>WYDARZENIA DO OCENY</div>
+                    </c:if>
+
+                    <c:if test="${userProfile == null}" >
+                        <div> OCENIAJ RYWALI </div>
+                    </c:if>
+
                     <c:forEach items="${eventsToEvaluate}" var="event">
                         <div class="ticket">
                             <span>${event.eventDate}</span>

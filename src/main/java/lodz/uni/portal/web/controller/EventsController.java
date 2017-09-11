@@ -40,6 +40,10 @@ public class EventsController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String getEventList(Model model) {
+
+		if (eachEventService.getLoggedInUser() == null) {
+			return "login";
+		}
 		model.addAttribute("sportNames", newEventService.getSportNames());
 		model.addAttribute("findEventForm", new FindEventForm());
 		model.addAttribute("loggedInUserName", eachEventService.getLoggedInUser().getNickname());

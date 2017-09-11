@@ -6,7 +6,6 @@
 
 <div class="col-sm-12 well custom-alert-2">
     <div>TO CZAS ABY OCENIC RYWALI!</div>
-    //zrobic obliczenie czasu.
 </div>
 
 <c:choose>
