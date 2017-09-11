@@ -42,4 +42,6 @@ public interface EachEventService {
     Map<String, Double> getMapUsersAvgByEvents(Event event);
 
     Double getLoggedInUserAvgByEvent(Event event);
+
+    int getFreePlaces(Event event);
 }

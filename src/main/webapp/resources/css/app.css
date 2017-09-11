@@ -1,0 +1,66 @@
+.error {
+    background: #E9967A;
+    color: 	#B22222;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.leave {
+    background: #8FBC8F ! important;
+    color: #006400;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.input {
+    border-radius: 5px;
+}
+
+.center {
+    margin: auto;
+    width: 50%;
+    border: 3px solid #F0E68C;
+    padding: 10px;
+    border-radius: 5px;
+    position: relative;
+}
+
+.events {
+    background: #F0E68C;
+    color: 	black;
+    border-radius: 15px;
+    text-align: center;
+}
+
+.title {
+     font-weight: bold;
+ }
+
+.global-back-color {
+    background: #F0E68C;
+}
+
+.admin-created {
+    background: #F0E68C;
+}
+
+.admin-disabled {
+    background: #FAEBD7;
+}
+
+.admin-active {
+    background: #3CB371;
+}
+
+.right-text {
+    text-align: left ! important;
+}
+
+.ticket {
+    border: 3px solid #F0E68C !important;
+    border-radius: 10px !important;
+}
+
+.icon {
+    height: 100% ! important;
+}

@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -25,6 +26,7 @@ public class EventsController {
 	private static final Logger logger = Logger.getLogger(EventsController.class);
 
 	private static final String EVENTS_LIST = "eventsList";
+	private static final String REDIRECT_EVENT_LIST = "redirect:/events";
 
 	@Autowired
 	NewEventService newEventService;
@@ -51,7 +53,7 @@ public class EventsController {
 
 		List<Event> foundedEvents = getFoundedEvents(form);
 		if (foundedEvents.size() > 0) {
-			model.addAttribute("events", foundedEvents);
+			model.addAttribute("foundedEvents", foundedEvents);
 		}
 
 		model.addAttribute("sportNames", newEventService.getSportNames());

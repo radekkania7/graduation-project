@@ -31,10 +31,21 @@ public class Sport implements Serializable {
 	
 	@Column(name="TEAM", nullable=false)
 	private boolean teamSport;
+
+	@Column(name="sportIcon")
+	private String sportIconPath;
 		
 	@OneToMany(mappedBy="eventSport")
 	private Set<Event> sportEvents = new HashSet<Event>();
-	
+
+	public String getSportIconPath() {
+		return sportIconPath;
+	}
+
+	public void setSportIconPath(String sportIconPath) {
+		this.sportIconPath = sportIconPath;
+	}
+
 	@ManyToMany
 	@JoinTable(name="USER_SPORTS",
 			joinColumns=@JoinColumn(name="SPORT_ID", referencedColumnName="SPORT_ID"),
@@ -111,5 +122,4 @@ public class Sport implements Serializable {
 			return false;
 		return true;
 	}
-
 }

@@ -65,7 +65,7 @@ public class EachEventServiceImpl implements EachEventService {
         return getFreePlaces(event) >= 1;
     }
 
-    private int getFreePlaces(Event event) {
+    public int getFreePlaces(Event event) {
         int limitCount = event.getPlayersLimit();
         int participantCount = event.getEventUsers().size();
         return limitCount - participantCount;
@@ -190,5 +190,6 @@ public class EachEventServiceImpl implements EachEventService {
     public Double getLoggedInUserAvgByEvent(Event event) {
         return getMarkAvgForUserFromEvent(getLoggedInUser().getNickname(), event.getId());
     }
+
 
 }

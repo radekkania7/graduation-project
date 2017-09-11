@@ -34,7 +34,7 @@ public class UserHomeController {
         model.addAttribute("eventsToEvaluate", userService.getEventsByStatusForUser(loggedInUseName, AFTER, limit));
         model.addAttribute("historyEvents", userService.getEventsByStatusForUser(loggedInUseName, CLOSED, limit));
         model.addAttribute("duringEvents", userService.getEventsByStatusForUser(loggedInUseName, DURING, limit));
-
+        model.addAttribute("loggedInUser", loggedInUseName);
         return HOME_PAGE;
     }
 

@@ -50,6 +50,7 @@ public class EachEventController {
 
 		if (EventStatusType.CREATED.getType().equals(eventStatus)) {
 			model.addAttribute("participants", globalEvent.getEventUsers());
+			model.addAttribute("freePlaces", eachEventService.getFreePlaces(globalEvent));
 			prepareButtonValue(model);
 		}
 
@@ -97,6 +98,7 @@ public class EachEventController {
 		model.addAttribute("isParticipant", eachEventService.isUserParticipate(globalEvent));
 		model.addAttribute("loggedInUserName", eachEventService.getLoggedInUser().getNickname());
 		model.addAttribute("sportName", globalEvent.getEventSport().getName());
+		model.addAttribute("sportIconPath", globalEvent.getEventSport().getSportIconPath());
 	}
 
 	@RequestMapping(value =  "/eventInfo/{eventId}/join" , method = RequestMethod.POST)

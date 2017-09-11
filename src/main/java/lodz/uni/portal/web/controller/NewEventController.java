@@ -38,19 +38,19 @@ public class NewEventController {
 	@RequestMapping(value = { "/createNewEvent" }, method = RequestMethod.POST)
 	public String processForm(@Valid @ModelAttribute("eventForm") EventForm form,
 							   BindingResult result,
-							   RedirectAttributes model) {
+							   Model model, RedirectAttributes redirectModel) {
 		this.result = result;
 		this.eventForm = form;
 
 		if (this.result.hasErrors()) {
-			model.addFlashAttribute("sportNames", newEventService.getSportNames());
-			return "redirect:/createNewEvent";
+			model.addAttribute("sportNames", newEventService.getSportNames());
+			return NEW_EVENT_PAGE;
 		}
 		//validateOtherFiled();
 
 		Event event = getFilledEvent();
 		persistNewEvent(event);
-		model.addFlashAttribute("event", event);
+		redirectModel.addFlashAttribute("event", event);
 		return REDIRECT_EVENT_INFO_PAGE_BASE + event.getId();
 	}
 

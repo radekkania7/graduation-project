@@ -1,1 +1,3 @@
-<h1> footer</h1>
+<footer container-fluid text-center>
+    by Radoslaw Kania
+</footer>
